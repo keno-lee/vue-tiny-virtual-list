@@ -14,73 +14,65 @@
     <div class="button-group">
       <button @click="addItem2Bottom">向底部添加</button>
       <input type="text" v-model="number" />
+      <span></span>
+      <span v-show="loading">数据生成中，请稍等</span>
     </div>
 
     <span>当前加载行数 {{ list.length }} </span>
 
-    <div class="demo" v-show="visible">
+    <div class="demo">
       <VirtualList
         :buffer="5"
         ref="virtualListRef"
-        :itemComponent="itemComponent"
         :list="list"
         itemKey="id"
         :minSize="44"
         @deleteItem="deleteItem"
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
       </VirtualList>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
-import { getList } from '../../utils/common';
+import { asyncGetList } from '../../utils/common';
 import Item from './Item.vue';
-// import Operate from '../../components/Operate.vue';
 
 export default {
   name: 'Dynamic',
   components: {
     VirtualList,
-    // Operate,
+    Item,
   },
   data() {
     return {
-      itemComponent: Item,
-      visible: true,
       list: [],
-
       number: 10000,
+
+      loading: false,
     };
   },
-  created() {
-    this.list = getList(1);
+  async created() {
+    this.list = await asyncGetList(1);
   },
   methods: {
-    addItem2Top() {
-      const newList = getList(this.number);
-      this.list.unshift(...getList(this.number));
-      this.$nextTick(() => {
-        this.$refs.virtualListRef.scrollToTop();
-      });
-      // requestAnimationFrame(() => {
-      // let reduce = 0;
-      // newList.forEach((item) => {
-      //   const size = this.$refs.virtualListRef.getItemSize(item.id);
-      //   console.log('size', size);
-      //   reduce += size;
-      // });
-      // this.$refs.virtualListRef.scrollToOffset(
-      //   this.$refs.virtualListRef.getOffset() + reduce,
-      // );
-      // });
-    },
-    addItem2Bottom() {
-      this.list.push(...getList(this.number));
-      this.$nextTick(() => {
-        this.$refs.virtualListRef.scrollToBottom();
-      });
+    async addItem2Bottom() {
+      if (this.loading) return;
+
+      this.loading = true;
+      setTimeout(async () => {
+        const newList = await asyncGetList(this.number);
+        this.list = this.list.concat(newList);
+        this.loading = false;
+
+        this.$nextTick(() => {
+          this.$refs.virtualListRef.scrollToBottom();
+        });
+      }, 0);
     },
     deleteItem(id) {
       const targetIndex = this.list.findIndex((row) => row.id === id);

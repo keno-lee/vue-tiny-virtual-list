@@ -8,19 +8,21 @@
     <div class="demo">
       <VirtualList
         :list="list"
-        :itemComponent="itemComponent"
         ref="virtualListRef"
         :minSize="60"
         horizontal
         itemKey="id"
         :buffer="2"
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
       </VirtualList>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
 import { getHorizontalList } from '../../utils/common';
 import Item from './Item.vue';
@@ -30,12 +32,11 @@ export default {
   name: 'Horizontal',
   components: {
     VirtualList,
+    Item,
     Operate,
   },
   data() {
     return {
-      itemComponent: Item,
-
       list: getHorizontalList(2000),
     };
   },

@@ -18,25 +18,26 @@
 
 ```html
 <template>
-  <div class="demo">
-    <VirtualList
-      :list="list"
-      :minSize="44"
-      itemKey="id"
-    >
+  <div style="width: 500px; height: 400px">
+    <VirtualList itemKey="id" :list="list" :minSize="40">
+      <template #default="{ itemData }">
+        <Item :itemData="itemData" />
+      </template>
     </VirtualList>
   </div>
 </template>
-<script>
-import { VirtualList } from 'vue-tiny-virtual-list';
 
-export default {
-  components: {
-    VirtualList,
-  },
-   data() {
-    return {
-      list: [],
-    }}
-};
+<script>
+  import { VirtualList } from 'hoyo-virtual-list';
+  import Item from './Item';
+
+  export default {
+    components: { VirtualList },
+    data() {
+      return {
+        list: [],
+      };
+    },
+  };
+</script>
 ```

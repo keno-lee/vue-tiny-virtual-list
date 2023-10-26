@@ -8,12 +8,14 @@
       padding: 0 10px;
     "
   >
-    <div style="flex: 1">{{ itemData.id }} - {{ itemData.text }}</div>
+    <div style="flex: 1">
+      {{ itemData.index }} - {{ itemData.id }} - {{ itemData.text }}
+    </div>
     <button style="height: 20px" @click="deleteItem(itemData.id)">删除</button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     itemData: {
@@ -21,9 +23,6 @@ export default {
       default() {
         return {};
       },
-    },
-    index: {
-      type: Number,
     },
   },
   methods: {

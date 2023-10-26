@@ -1,6 +1,6 @@
 {
   "name": "vue-tiny-virtual-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Virtual render list & Huge amount data & High performance (support vue2.x&vue3.x)",
   "author": "keno-lee",
   "license": "MIT",

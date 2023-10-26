@@ -10,17 +10,19 @@
       <VirtualList
         :buffer="5"
         ref="virtualListRef"
-        :itemComponent="itemComponent"
         :list="list"
         itemKey="id"
         :minSize="20"
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
       </VirtualList>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
 import { getList } from '../../utils/common';
 import Item from './Item.vue';
@@ -31,10 +33,10 @@ export default {
   components: {
     VirtualList,
     Operate,
+    Item,
   },
   data() {
     return {
-      itemComponent: Item,
       visible: true,
       list: getList(200),
       virtualListRef: {},

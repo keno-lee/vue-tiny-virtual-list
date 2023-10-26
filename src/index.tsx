@@ -60,24 +60,20 @@ const VirtualList = defineComponent({
       type: Array<any>,
       default: () => [],
     },
+    // 数据key
+    itemKey: {
+      type: [String, Number],
+      required: true,
+    },
     // 最小尺寸
     minSize: {
       type: Number,
       default: 20,
       required: true,
     },
-    itemComponent: {
-      type: [Object, Function],
-      required: true,
-    },
     fixed: {
       type: Boolean,
       default: false,
-    },
-    // 数据key
-    itemKey: {
-      type: [String, Number],
-      required: true,
     },
     buffer: {
       type: Number,
@@ -776,7 +772,6 @@ const VirtualList = defineComponent({
       stickyHeaderStyle,
       stickyFooterClass,
       stickyFooterStyle,
-      itemComponent,
     } = props;
 
     const { header, footer, stickyHeader, stickyFooter } = this.$slots;
@@ -853,15 +848,7 @@ const VirtualList = defineComponent({
             resizeObserver={resizeObserver}
             key={currentItem[itemKey]}
           >
-            <itemComponent
-              props={{
-                itemData: currentItem,
-                ...this.$attrs,
-              }}
-              on={{
-                ...this.$listeners,
-              }}
-            ></itemComponent>
+            {this.$scopedSlots?.default?.({ itemData: currentItem })}
           </ObserverItem>,
         );
       }

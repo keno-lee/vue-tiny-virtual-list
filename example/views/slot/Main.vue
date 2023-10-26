@@ -8,7 +8,6 @@
     <div class="demo">
       <VirtualList
         test="test"
-        :itemComponent="itemComponent"
         :buffer="2"
         :minSize="40"
         :list="list"
@@ -18,8 +17,10 @@
         headerStyle="height: 80px; background: red"
         footerStyle="height: 80px; background: red"
         stickyFooterStyle="height: 40px; background: green;"
-        @test="onTest"
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
         <template #stickyHeader>
           <div>悬浮header</div>
         </template>
@@ -37,21 +38,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
 import { getList } from '../../utils/common';
-import Item from './Item';
+import Item from './Item.vue';
 import Operate from '../../components/Operate.vue';
 
 export default {
-  name: 'Dynamic',
+  name: 'DemoSlot',
   components: {
     VirtualList,
     Operate,
+    Item,
   },
   data() {
     return {
-      itemComponent: Item,
       list: getList(2000),
     };
   },

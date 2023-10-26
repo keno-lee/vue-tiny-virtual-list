@@ -9,13 +9,15 @@
       <VirtualList
         :list="list"
         :minSize="40"
-        :itemComponent="itemComponent"
         ref="virtualListRef"
         itemKey="id"
         headerClass="header"
         :headerStyle="`width: ${1400}px;`"
         :listStyle="`width: ${1400}px;`"
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
         <template #header>
           <div
             class="header-table-cell"
@@ -48,7 +50,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
 import { getList } from '../../utils/common';
 import Item from './Item.vue';
@@ -59,11 +61,10 @@ export default {
   components: {
     VirtualList,
     Operate,
+    Item,
   },
   data() {
     return {
-      itemComponent: Item,
-
       list: getList(2000),
     };
   },

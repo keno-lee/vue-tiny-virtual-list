@@ -17,22 +17,18 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         };
         default: () => any[];
     };
+    itemKey: {
+        type: (StringConstructor | NumberConstructor)[];
+        required: true;
+    };
     minSize: {
         type: NumberConstructor;
         default: number;
         required: true;
     };
-    itemComponent: {
-        type: (ObjectConstructor | FunctionConstructor)[];
-        required: true;
-    };
     fixed: {
         type: BooleanConstructor;
         default: boolean;
-    };
-    itemKey: {
-        type: (StringConstructor | NumberConstructor)[];
-        required: true;
     };
     buffer: {
         type: NumberConstructor;
@@ -107,9 +103,8 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         listStyle: string;
         horizontal: boolean;
         list: any[];
-        minSize: number;
-        itemComponent: Function | Record<string, any>;
         itemKey: string | number;
+        minSize: number;
         bufferTop: number;
         bufferBottom: number;
         scrollDistance: number;
@@ -207,22 +202,18 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         };
         default: () => any[];
     };
+    itemKey: {
+        type: (StringConstructor | NumberConstructor)[];
+        required: true;
+    };
     minSize: {
         type: NumberConstructor;
         default: number;
         required: true;
     };
-    itemComponent: {
-        type: (ObjectConstructor | FunctionConstructor)[];
-        required: true;
-    };
     fixed: {
         type: BooleanConstructor;
         default: boolean;
-    };
-    itemKey: {
-        type: (StringConstructor | NumberConstructor)[];
-        required: true;
     };
     buffer: {
         type: NumberConstructor;

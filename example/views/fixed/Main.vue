@@ -9,18 +9,20 @@
       <VirtualList
         :buffer="2"
         :list="list"
-        :itemComponent="itemComponent"
         ref="virtualListRef"
         itemKey="id"
         :minSize="40"
         fixed
       >
+        <template #default="{ itemData }">
+          <Item :itemData="itemData" />
+        </template>
       </VirtualList>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { VirtualList } from '../../../src';
 import { getList } from '../../utils/common';
 import Item from './Item.vue';
@@ -29,13 +31,12 @@ import Operate from '../../components/Operate.vue';
 export default {
   name: 'Fixed',
   components: {
+    Item,
     VirtualList,
     Operate,
   },
   data() {
     return {
-      itemComponent: Item,
-
       list: getList(2000),
     };
   },
