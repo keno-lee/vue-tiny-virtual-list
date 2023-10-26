@@ -10,9 +10,9 @@
 - typescript 支持
 - 支持向上平滑滚动（修复了抖动问题）
 
-## 在线演示地址
+## [在线演示地址](https://keno-lee.github.io/vue-tiny-virtual-list/)
 
-https://keno-lee.github.io/vue-tiny-virtual-list/
+## [wiki docs](https://wholesale-tiglon-742.notion.site/vue-tiny-virtual-list-a6f35a24029b445da4d1a20e8dc881cf)
 
 ## 使用
 
