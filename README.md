@@ -12,7 +12,7 @@
 
 ## [在线演示地址](https://keno-lee.github.io/vue-tiny-virtual-list/)
 
-## [wiki docs](https://wholesale-tiglon-742.notion.site/vue-tiny-virtual-list-a6f35a24029b445da4d1a20e8dc881cf)
+## [wiki docs](https://keno-lee.notion.site/vue-tiny-virtual-list-a6f35a24029b445da4d1a20e8dc881cf?pvs=4)
 
 ## 使用
 
