@@ -8,6 +8,7 @@
         left: 0;
         background-color: #fff;
         box-shadow: 8px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
       "
     >
       {{ itemData.id }}

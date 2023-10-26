@@ -1,16 +1,19 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import vue from '@vitejs/plugin-vue2';
-// import vueJsx from '@vitejs/plugin-vue2-jsx';
-// import { createVuePlugin } from 'vite-plugin-vue2';
-
+import vue2 from '@vitejs/plugin-vue2';
+import vue2Jsx from '@vitejs/plugin-vue2-jsx';
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
-  plugins: [vue()],
+  plugins: [
+    vue2(),
+    vue2Jsx({
+      compositionAPI: true,
+    }),
+  ],
   root: './example',
   base: '',
   build: {
-    outDir: path.join(__dirname, '../dist'),
+    outDir: path.join(__dirname, '../docs'),
     emptyOutDir: true,
   },
 }));

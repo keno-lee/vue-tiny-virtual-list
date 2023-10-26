@@ -1,10 +1,16 @@
 {
-  "name": "virtual-list-vue",
+  "name": "vue-tiny-virtual-list",
   "version": "1.0.0",
-  "description": "High performance & Virtual render & Huge amount data (support vue2.x&vue3.x)",
+  "description": "Virtual render list & Huge amount data & High performance (support vue2.x&vue3.x)",
+  "author": "keno-lee",
+  "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keno-lee/vue-tiny-virtual-list.git"
+  },
   "scripts": {
     "dev": "vite example --host -c ./scripts/dev.js",
     "build:docs": "vite build -c ./scripts/build.docs.js",
@@ -49,5 +55,14 @@
     "vue-router": "^3.5.4",
     "vue-template-compiler": "^2.7.7",
     "vue-tsc": "^0.38.8"
+  },
+  "bugs": {
+    "url": "https://github.com/keno-lee/vue-tiny-virtual-list/issues"
+  },
+  "homepage": "https://github.com/keno-lee/vue-tiny-virtual-list#readme",
+  "directories": {
+    "doc": "docs",
+    "example": "example",
+    "lib": "lib"
   }
 }

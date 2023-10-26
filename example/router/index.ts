@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
@@ -8,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    redirect: '/performance',
   },
   {
     path: '/performance',
@@ -19,22 +18,10 @@ const routes = [
       ),
   },
   {
-    path: '/tree',
-    name: 'tree',
-    component: () =>
-      import(/* webpackChunkName: "tree" */ '../views/tree/Main.vue'),
-  },
-  {
     path: '/slot',
     name: 'Slot',
     component: () =>
       import(/* webpackChunkName: "slot" */ '../views/slot/Main.vue'),
-  },
-  {
-    path: '/dynamic',
-    name: 'dynamic',
-    component: () =>
-      import(/* webpackChunkName: "dynamic" */ '../views/dynamic/Main.vue'),
   },
   {
     path: '/fixed',
@@ -55,42 +42,6 @@ const routes = [
     name: 'table',
     component: () =>
       import(/* webpackChunkName: "table" */ '../views/table/Main.vue'),
-  },
-  {
-    path: '/infinity',
-    name: 'infinity',
-    component: () =>
-      import(/* webpackChunkName: "infinity" */ '../views/infinity/Main.vue'),
-  },
-  {
-    path: '/chat',
-    name: 'chat',
-    component: () =>
-      import(/* webpackChunkName: "chat" */ '../views/chat/Main.vue'),
-  },
-  {
-    path: '/pagination',
-    name: 'pagination',
-    component: () =>
-      import(
-        /* webpackChunkName: "pagination" */ '../views/pagination/Main.vue'
-      ),
-  },
-  {
-    path: '/pagination-pre',
-    name: 'pagination-pre',
-    component: () =>
-      import(
-        /* webpackChunkName: "pagination-pre" */ '../views/pagination-pre/Main.vue'
-      ),
-  },
-  {
-    path: '/change-items',
-    name: 'change-items',
-    component: () =>
-      import(
-        /* webpackChunkName: "change-items" */ '../views/change-items/Main.vue'
-      ),
   },
   {
     path: '/editable',

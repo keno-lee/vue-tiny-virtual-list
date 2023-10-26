@@ -38,7 +38,7 @@
       <slot></slot>
     </div>
 
-    <div style="text-align: center">
+    <div>
       <span>当前加载行数 {{ length }} </span>
       <span> </span>
       <span>Prev[0-1] Render[1-10] Behind[10-20]</span>

@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import fakeData from '../data/fake.json';
 
 export function getList(number) {
   const newList = [];
@@ -39,22 +38,22 @@ export async function getParagraphList(page = 1, count) {
   });
 }
 
-export function getRows(page, pageSize) {
-  return fakeData.slice((page - 1) * pageSize, page * pageSize);
-}
+// export function getRows(page, pageSize) {
+//   return fakeData.slice((page - 1) * pageSize, page * pageSize);
+// }
 
-export function addRows(lastLength, length) {
-  return fakeData.slice(lastLength, lastLength + length);
-}
+// export function addRows(lastLength, length) {
+//   return fakeData.slice(lastLength, lastLength + length);
+// }
 
-export function asyncGetRows(page, pageSize) {
-  return new Promise((resolve) => {
-    // fake ajax
-    setTimeout(() => {
-      resolve(fakeData.slice((page - 1) * pageSize, page * pageSize));
-    }, 1000);
-  });
-}
+// export function asyncGetRows(page, pageSize) {
+//   return new Promise((resolve) => {
+//     // fake ajax
+//     setTimeout(() => {
+//       resolve(fakeData.slice((page - 1) * pageSize, page * pageSize));
+//     }, 1000);
+//   });
+// }
 
 const randomArr = [60, 80, 100, 110, 130];
 

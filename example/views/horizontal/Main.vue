@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="demo-horizontal"
-    style="display: flex; flex-direction: column; align-items: center"
-  >
+  <div class="main">
     <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
@@ -51,21 +48,19 @@ export default {
 </script>
 
 <style lang="scss">
-.demo-horizontal {
-  .demo {
-    width: 800px;
-    height: 120px;
-    background-color: #fff;
-    overflow: hidden;
-    border: 1px solid #000;
+.demo {
+  width: 800px;
+  height: 120px;
+  background-color: #fff;
+  overflow: hidden;
+  border: 1px solid #000;
 
-    .demo-col {
-      height: 100%;
-      border-bottom: 1px solid #000;
-      border-left: 1px solid #000;
-      padding: 4px;
-      box-sizing: border-box;
-    }
+  .demo-col {
+    height: 100%;
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    padding: 4px;
+    box-sizing: border-box;
   }
 }
 </style>

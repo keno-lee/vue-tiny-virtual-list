@@ -1,24 +1,17 @@
 <template>
   <div id="app">
     <div class="sidebar">
-      <router-link class="sidebar-item" to="/">Home</router-link>
+      <router-link class="sidebar-item" to="/performance">首页</router-link>
 
       <router-link class="sidebar-item" to="/fixed">固定高度</router-link>
-
-      <router-link class="sidebar-item" to="/performance">高性能</router-link>
       <router-link class="sidebar-item" to="/slot">4个插槽</router-link>
-      <router-link class="sidebar-item" to="/dynamic">动态高度</router-link>
       <router-link class="sidebar-item" to="/horizontal">水平滚动</router-link>
       <router-link class="sidebar-item" to="/table">表格</router-link>
-      <router-link class="sidebar-item" to="/infinity">无限加载</router-link>
-      <router-link class="sidebar-item" to="/chat">聊天室</router-link>
-      <router-link class="sidebar-item" to="/pagination">分页-触底</router-link>
-      <router-link class="sidebar-item" to="/tree">树形</router-link>
-      <router-link class="sidebar-item" to="/change-items"
-        >增删item</router-link
-      >
       <router-link class="sidebar-item" to="/editable">可编辑行</router-link>
-
+      <!-- <router-link class="sidebar-item" to="/infinity">无限加载</router-link>
+      <router-link class="sidebar-item" to="/chat">聊天室</router-link> -->
+      <!-- <router-link class="sidebar-item" to="/pagination">分页-触底</router-link> -->
+      <!-- <router-link class="sidebar-item" to="/tree">树形</router-link> -->
       <!-- <router-link to="/pagination-pre">分页-提前</router-link> -->
     </div>
     <div class="container">

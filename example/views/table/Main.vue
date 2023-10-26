@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="table-wrapper"
-    style="display: flex; flex-direction: column; align-items: center"
-  >
+  <div class="main">
     <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
@@ -27,6 +24,7 @@
               position: sticky;
               left: 0;
               background-color: #fff;
+              overflow: hidden;
             "
           >
             id
@@ -52,7 +50,7 @@
 
 <script>
 import { VirtualList } from '../../../src';
-import { getRows } from '../../utils/common';
+import { getList } from '../../utils/common';
 import Item from './Item.vue';
 import Operate from '../../components/Operate.vue';
 
@@ -66,7 +64,7 @@ export default {
     return {
       itemComponent: Item,
 
-      list: getRows(1, 2000),
+      list: getList(2000),
     };
   },
   mounted() {
@@ -78,46 +76,44 @@ export default {
 </script>
 
 <style lang="scss">
-.table-wrapper {
-  .table {
-    width: 800px;
-    height: 500px;
-    background-color: #fff;
-    overflow: hidden;
-    border: 1px solid #000;
+.table {
+  width: 800px;
+  height: 500px;
+  background-color: #fff;
+  overflow: hidden;
+  border: 1px solid #000;
 
-    .table-row {
-      display: flex;
-      width: min-content;
-    }
-
-    .header-table-cell {
-      box-sizing: border-box;
-      border-bottom: 1px solid #ccc;
-      border-left: 1px solid #ccc;
-      background-color: #fff;
-    }
-
-    .table-cell {
-      box-sizing: border-box;
-      border-bottom: 1px solid #ccc;
-      border-left: 1px solid #ccc;
-      background-color: #fff;
-      padding: 10px;
-    }
-  }
-
-  .header {
-    height: 40px;
-    line-height: 40px;
+  .table-row {
     display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    text-align: center;
-    background: #fff;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     width: min-content;
   }
+
+  .header-table-cell {
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background-color: #fff;
+  }
+
+  .table-cell {
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background-color: #fff;
+    padding: 10px;
+  }
+}
+
+.header {
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  width: min-content;
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="demo-dynamic"
-    style="display: flex; flex-direction: column; align-items: center"
-  >
+  <div class="main">
     <Operate
       :virtualListRef="virtualListRef"
       :length="list.length"
@@ -25,7 +22,7 @@
 
 <script>
 import { VirtualList } from '../../../src';
-import { addRows } from '../../utils/common';
+import { getList } from '../../utils/common';
 import Item from './Item.vue';
 import Operate from '../../components/Operate.vue';
 
@@ -39,7 +36,7 @@ export default {
     return {
       itemComponent: Item,
       visible: true,
-      list: addRows(0, 200),
+      list: getList(200),
       virtualListRef: {},
     };
   },
@@ -50,23 +47,21 @@ export default {
 </script>
 
 <style lang="scss">
-.demo-dynamic {
-  .demo {
-    width: 800px;
-    height: 500px;
-    background-color: #fff;
-    overflow: hidden;
-    border: 1px solid #000;
+.demo {
+  width: 800px;
+  height: 500px;
+  background-color: #fff;
+  overflow: hidden;
+  border: 1px solid #000;
 
-    .demo-row {
-      display: flex;
-    }
+  .demo-row {
+    display: flex;
+  }
 
-    .demo-cell {
-      box-sizing: border-box;
-      border-bottom: 1px solid #ccc;
-      border-left: 1px solid #ccc;
-    }
+  .demo-cell {
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
   }
 }
 </style>

@@ -520,6 +520,9 @@ const VirtualList = defineComponent({
       reactiveData.renderBegin = 0;
       reactiveData.renderEnd = 0;
 
+      // fix bug: 滚动到顶部后，修改list会导致不应出现的修正误差操作
+      direction = 'backward';
+
       sizesMap.clear();
     }
     // expose only
