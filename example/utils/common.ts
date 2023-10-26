@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-export function getList(number: number): any[] {
+export function getList(length: number, start = 0): any[] {
   const newList = [];
-  for (let i = 0; i < number; i++) {
+  for (let i = 0; i < length; i++) {
     newList.push({
       index: i,
       id: faker.string.nanoid(),
@@ -13,11 +13,12 @@ export function getList(number: number): any[] {
 }
 
 // 异步获取数据
-export async function asyncGetList(number: number): Promise<any[]> {
+export async function asyncGetList(length: number, start = 0): Promise<any[]> {
   return new Promise((resolve) => {
     const newList = [];
-    for (let i = 0; i < number; i++) {
+    for (let i = 0; i < length; i++) {
       newList.push({
+        index: start + i,
         id: faker.string.nanoid(),
         text: faker.lorem.sentences(),
       });

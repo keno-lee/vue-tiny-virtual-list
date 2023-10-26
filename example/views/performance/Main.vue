@@ -65,7 +65,7 @@ export default {
 
       this.loading = true;
       setTimeout(async () => {
-        const newList = await asyncGetList(this.number);
+        const newList = await asyncGetList(this.number, this.list.length);
         this.list = this.list.concat(newList);
         this.loading = false;
 
