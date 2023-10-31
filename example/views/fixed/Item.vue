@@ -1,6 +1,6 @@
 <template>
   <div class="demo-cell" style="height: 40px">
-    {{ itemData.index }} -{{ itemData.id }} - {{ itemData.name }}
+    {{ itemData.index }} - {{ itemData.id }} - {{ itemData.text }}
   </div>
 </template>
 

@@ -2,9 +2,28 @@
   "extends": "./tsconfig.json",
 
   "compilerOptions": {
-    "emitDeclarationOnly": true,
-    "declaration": true,
-    "outDir": "lib"
+    "emitDeclarationOnly": true, // 只输出声明文件(ts 产物)
+    "declaration": true, // 自动生成声明文件
+
+    "outDir": "lib",
+    // "declarationDir": "lib" // 声明文件生成的目录
+
+    "jsx": "preserve",
+    "jsxFactory": "h"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "vueCompilerOptions": {
+    "target": 2.7 // For Vue version <= 2.6.14
+  }
+
+  // "compilerOptions": {
+  //   "jsx": "preserve",
+  //   "jsxFactory": "h",
+
+  //   "emitDeclarationOnly": true, // 只输出声明文件(ts 产物)
+  //   "declaration": true, // 自动生成声明文件
+  //   "declarationDir": "lib" // 声明文件生成的目录
+  // },
+  // "include": ["src", "example"],
+  // "exclude": ["node_modules", "lib"],
 }

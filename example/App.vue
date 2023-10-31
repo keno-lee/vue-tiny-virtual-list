@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="sidebar">
-      <router-link class="sidebar-item" to="/performance">首页</router-link>
-
+      <router-link class="sidebar-item" to="/performance">高性能</router-link>
+      <router-link class="sidebar-item" to="/operate">各类操作</router-link>
       <router-link class="sidebar-item" to="/fixed">固定高度</router-link>
       <router-link class="sidebar-item" to="/slot">4个插槽</router-link>
       <router-link class="sidebar-item" to="/horizontal">水平滚动</router-link>

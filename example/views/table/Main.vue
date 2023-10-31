@@ -1,11 +1,12 @@
 <template>
   <div class="main">
-    <Operate
-      :virtualListRef="$refs.virtualListRef"
-      :length="list.length"
-    ></Operate>
+    <div style="padding: 10px 0">
+      <span>Total: {{ list.length }} </span>
+      <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
+      <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
+    </div>
 
-    <div class="table">
+    <div class="demo-table">
       <VirtualList
         :list="list"
         :minSize="40"
@@ -51,33 +52,36 @@
 </template>
 
 <script lang="ts">
-import { VirtualList } from '../../../src';
-import { getList } from '../../utils/common';
+import { VirtualList } from '@/src/index';
+import { getList } from '@/example/utils/common';
 import Item from './Item.vue';
-import Operate from '../../components/Operate.vue';
 
 export default {
   name: 'DemoTable',
   components: {
     VirtualList,
-    Operate,
     Item,
   },
   data() {
     return {
-      list: getList(2000),
+      list: getList(1000),
+
+      reactiveData: {
+        renderBegin: 0,
+        renderEnd: 0,
+      },
     };
   },
   mounted() {
-    // setTimeout(() => {
-    //   this.list = await getRows(1, 2000);
-    // }, 1000);
+    this.reactiveData = (
+      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
+    ).reactiveData;
   },
 };
 </script>
 
 <style lang="scss">
-.table {
+.demo-table {
   width: 800px;
   height: 500px;
   background-color: #fff;

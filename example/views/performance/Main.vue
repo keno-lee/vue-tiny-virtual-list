@@ -1,29 +1,36 @@
 <template>
   <div class="main">
-    <!-- <Operate
-      :virtualListRef="$refs.virtualListRef"
-      :length="list.length"
-      :visible.sync="visible"
-    >
-      <div class="operate-item">
-        <button class="operate-btn" @click="addItems">增加1000条</button>
-      </div>
-    </Operate> -->
-
     <div>高性能、动态高度、增删</div>
     <div class="button-group">
-      <button @click="addItem2Bottom">向底部添加</button>
-      <input type="text" v-model="number" />
-      <span></span>
+      <button @click="manualAddList">Manual Add List</button>
+      <span>(</span>
+      <input type="text" v-model="manualNumber" />
+      <span>per)</span>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
+      <button @click="autoAddList">
+        {{ autoFlag ? 'Stop Add List' : 'Auto Add List' }}
+      </button>
+      <span>(</span>
+      <input type="text" v-model="autoNumber" />
+      <span>per)</span>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
       <span v-show="loading">数据生成中，请稍等</span>
     </div>
 
-    <span>当前加载行数 {{ list.length }} </span>
+    <div style="padding: 10px 0">
+      <span>Total: {{ list.length }} </span>
+      <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
+      <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
+    </div>
 
-    <div class="demo">
+    <div class="demo-dynamic">
       <VirtualList
-        :buffer="5"
         ref="virtualListRef"
+        :buffer="5"
         :list="list"
         itemKey="id"
         :minSize="44"
@@ -37,43 +44,72 @@
 </template>
 
 <script lang="ts">
-import { VirtualList } from '../../../src';
-import { asyncGetList } from '../../utils/common';
+import { VirtualList } from '@/src/index';
+import { asyncGetList } from '@/example/utils/common';
 import Item from './Item.vue';
 
 export default {
-  name: 'Dynamic',
+  name: 'DemoDynamic',
   components: {
     VirtualList,
     Item,
   },
   data() {
     return {
-      list: [],
-      number: 10000,
+      list: [] as any[],
 
+      manualNumber: 1000,
+      autoNumber: 10,
+      autoFlag: false,
       loading: false,
+      reactiveData: {
+        renderBegin: 0,
+        renderEnd: 0,
+      },
     };
   },
   async created() {
     this.list = await asyncGetList(1);
   },
+  mounted() {
+    this.reactiveData = (
+      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
+    ).reactiveData;
+  },
   methods: {
-    async addItem2Bottom() {
-      if (this.loading) return;
+    generateList(length: number) {
+      return new Promise((resolve) => {
+        if (this.loading) return;
+        this.loading = true;
+        setTimeout(async () => {
+          const newList = await asyncGetList(length, this.list.length);
+          this.list = this.list.concat(newList);
+          this.loading = false;
 
-      this.loading = true;
-      setTimeout(async () => {
-        const newList = await asyncGetList(this.number, this.list.length);
-        this.list = this.list.concat(newList);
-        this.loading = false;
-
-        this.$nextTick(() => {
-          this.$refs.virtualListRef.scrollToBottom();
-        });
-      }, 0);
+          this.$nextTick(() => {
+            (
+              this.$refs.virtualListRef as InstanceType<typeof VirtualList>
+            ).scrollToBottom();
+            resolve(null);
+          });
+        }, 0);
+      });
     },
-    deleteItem(id) {
+    async manualAddList() {
+      this.autoFlag = false;
+      return this.generateList(this.manualNumber);
+    },
+    async autoGenerate() {
+      if (this.autoFlag) {
+        await this.generateList(this.autoNumber);
+        this.autoGenerate();
+      }
+    },
+    async autoAddList() {
+      this.autoFlag = !this.autoFlag;
+      this.autoGenerate();
+    },
+    deleteItem(id: number) {
       const targetIndex = this.list.findIndex((row) => row.id === id);
       this.list.splice(targetIndex, 1);
     },
@@ -82,7 +118,7 @@ export default {
 </script>
 
 <style lang="scss">
-.demo {
+.demo-dynamic {
   width: 800px;
   height: 500px;
   background-color: #fff;

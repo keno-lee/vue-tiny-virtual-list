@@ -1,12 +1,12 @@
 <template>
   <div class="main">
-    <Operate
-      :virtualListRef="virtualListRef"
-      :length="list.length"
-      :visible.sync="visible"
-    >
-    </Operate>
-    <div class="demo">
+    <div style="padding: 10px 0">
+      <span>Total: {{ list.length }} </span>
+      <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
+      <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
+    </div>
+
+    <div class="demo-editable">
       <VirtualList
         :buffer="5"
         ref="virtualListRef"
@@ -23,33 +23,37 @@
 </template>
 
 <script lang="ts">
-import { VirtualList } from '../../../src';
-import { getList } from '../../utils/common';
+import { VirtualList } from '@/src/index';
+import { getList } from '@/example/utils/common';
 import Item from './Item.vue';
-import Operate from '../../components/Operate.vue';
 
 export default {
-  name: 'Dynamic',
+  name: 'DemoEditable',
   components: {
     VirtualList,
-    Operate,
     Item,
   },
   data() {
     return {
-      visible: true,
       list: getList(200),
       virtualListRef: {},
+
+      reactiveData: {
+        renderBegin: 0,
+        renderEnd: 0,
+      },
     };
   },
   mounted() {
-    this.virtualListRef = this.$refs.virtualListRef;
+    this.reactiveData = (
+      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
+    ).reactiveData;
   },
 };
 </script>
 
 <style lang="scss">
-.demo {
+.demo-editable {
   width: 800px;
   height: 500px;
   background-color: #fff;

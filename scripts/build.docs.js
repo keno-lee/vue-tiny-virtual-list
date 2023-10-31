@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from 'node:url';
+
 import { defineConfig } from 'vite';
 import path from 'path';
 import vue2 from '@vitejs/plugin-vue2';
@@ -15,5 +17,10 @@ export default defineConfig(({ command }) => ({
   build: {
     outDir: path.join(__dirname, '../docs'),
     emptyOutDir: true,
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('../', import.meta.url)),
+    },
   },
 }));

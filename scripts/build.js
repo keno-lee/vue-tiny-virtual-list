@@ -45,4 +45,9 @@ export default defineConfig(({ command }) => ({
       },
     },
   },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('../', import.meta.url)),
+    },
+  },
 }));

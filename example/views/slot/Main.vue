@@ -3,9 +3,10 @@
     <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
+      :visible.sync="visible"
     ></Operate>
 
-    <div class="demo">
+    <div class="demo-slot" v-show="visible">
       <VirtualList
         test="test"
         :buffer="2"
@@ -39,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import { VirtualList } from '../../../src';
-import { getList } from '../../utils/common';
+import { VirtualList } from '@/src/index';
+import { getList } from '@/example/utils/common';
 import Item from './Item.vue';
-import Operate from '../../components/Operate.vue';
+import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
   name: 'DemoSlot',
@@ -53,7 +54,8 @@ export default {
   },
   data() {
     return {
-      list: getList(2000),
+      visible: true,
+      list: getList(1000),
     };
   },
   async mounted() {
@@ -68,7 +70,7 @@ export default {
 </script>
 
 <style lang="scss">
-.demo {
+.demo-slot {
   width: 800px;
   height: 500px;
   background-color: #fff;

@@ -8,7 +8,6 @@ import {
   ref,
   shallowRef,
   watch,
-  nextTick,
   type ShallowRef,
 } from 'vue-demi';
 
@@ -237,9 +236,9 @@ const VirtualList = defineComponent({
       const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
       if (clientRef.value?.$el) clientRef.value.$el[directionKey] = offset;
 
-      nextTick(() => {
+      setTimeout(() => {
         setScrollFlag = false;
-      });
+      }, 0);
     }
     // expose 滚动到指定下标
     async function scrollToIndex(index: number) {
@@ -338,19 +337,12 @@ const VirtualList = defineComponent({
       const selection = window.getSelection();
       if (selection) {
         const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
-        // console.log(
-        //   '发生变更',
-        //   selection,
-        //   anchorNode,
-        //   anchorOffset,
-        //   focusNode,
-        //   focusOffset,
-        // );
         if (
           anchorNode &&
           anchorOffset !== null &&
           focusNode !== null &&
-          focusOffset
+          focusOffset &&
+          anchorNode !== focusNode
         ) {
           requestAnimationFrame(() => {
             if (anchorOffset < focusOffset) {
@@ -568,8 +560,8 @@ const VirtualList = defineComponent({
           if (id) {
             const oldSize = getItemSize(id);
             const newSize = props.horizontal
-              ? entry.contentBoxSize[0].inlineSize
-              : entry.contentBoxSize[0].blockSize;
+              ? entry.borderBoxSize[0].inlineSize
+              : entry.borderBoxSize[0].blockSize;
 
             if (id === 'client') {
               slotSize.clientSize = newSize;

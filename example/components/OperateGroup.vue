@@ -2,18 +2,20 @@
   <div class="operate-wrap">
     <div class="operate">
       <div class="operate-item">
-        <button class="operate-btn" @click="goScrollOffset">滚动到(px)</button>
+        <button class="operate-btn" @click="goScrollOffset">
+          scrollTo(px)
+        </button>
         <input class="operate-input" type="number" v-model="scrollToOffset" />
       </div>
       <div class="operate-item">
         <button class="operate-btn" @click="goScrollIndex">
-          滚动到(index)
+          scrollTo(index)
         </button>
         <input class="operate-input" type="number" v-model="scrollToIndex" />
       </div>
       <div class="operate-item">
         <button class="operate-btn" @click="goScrollIntoView">
-          显示(index)
+          show(index)
         </button>
         <input
           class="operate-input"
@@ -24,30 +26,24 @@
         <button @click="goScrollIntoViewNext">next</button>
       </div>
       <div class="operate-item">
-        <button class="operate-btn" @click="goScrollTop">去顶部</button>
+        <button class="operate-btn" @click="goScrollTop">toTop</button>
       </div>
       <div class="operate-item">
-        <button class="operate-btn" @click="goScrollBottom">去底部</button>
+        <button class="operate-btn" @click="goScrollBottom">toBottom</button>
       </div>
       <div class="operate-item">
-        <button class="operate-btn" @click="showIt">显示/隐藏</button>
+        <button class="operate-btn" @click="showIt">visible/hidden</button>
       </div>
-      <div class="operate-item">
+      <!-- <div class="operate-item">
         <button class="operate-btn" @click="renderIt">渲染/卸载</button>
-      </div>
+      </div> -->
       <slot></slot>
-    </div>
-
-    <div>
-      <span>当前加载行数 {{ length }} </span>
-      <span> </span>
-      <span>Prev[0-1] Render[1-10] Behind[10-20]</span>
     </div>
   </div>
 </template>
 <script lang="ts">
 export default {
-  name: 'Operate',
+  name: 'OperateGroup',
   props: {
     virtualListRef: {
       type: Object,
@@ -108,7 +104,7 @@ export default {
 </script>
 <style lang="scss">
 .operate-wrap {
-  padding: 4px 0;
+  padding: 10px 0;
   .operate {
     display: flex;
     flex-wrap: wrap;
@@ -117,7 +113,7 @@ export default {
       user-select: none;
       display: flex;
       margin-right: 20px;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
 
       .operate-btn {
         padding: 2px 6px;

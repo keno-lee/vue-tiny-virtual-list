@@ -3,6 +3,7 @@
     <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
+      :visible.sync="visible"
     ></Operate>
 
     <div style="padding: 10px 0">
@@ -11,14 +12,14 @@
       <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
     </div>
 
-    <div class="demo-horizontal">
+    <div class="demo-fixed" style="resize: auto" v-show="visible">
       <VirtualList
+        :buffer="2"
         :list="list"
         ref="virtualListRef"
-        :minSize="60"
-        horizontal
         itemKey="id"
-        :buffer="2"
+        :minSize="40"
+        fixed
       >
         <template #default="{ itemData }">
           <Item :itemData="itemData" />
@@ -30,21 +31,22 @@
 
 <script lang="ts">
 import { VirtualList } from '@/src/index';
-import Operate from '@/example/components/OperateGroup.vue';
-import { getHorizontalList } from '@/example/utils/common';
+import { getList } from '@/example/utils/common';
 import Item from './Item.vue';
+import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
-  name: 'DemoHorizontal',
+  name: 'DemoFixed',
   components: {
-    VirtualList,
     Item,
+    VirtualList,
     Operate,
   },
   data() {
     return {
-      list: getHorizontalList(1000),
-
+      visible: true,
+      virtualListRef: null,
+      list: getList(1000),
       reactiveData: {
         renderBegin: 0,
         renderEnd: 0,
@@ -59,20 +61,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.demo-horizontal {
+<style lang="scss" scoped>
+.demo-fixed {
   width: 800px;
-  height: 120px;
+  height: 500px;
   background-color: #fff;
   overflow: hidden;
   border: 1px solid #000;
 
-  .demo-col {
-    height: 100%;
-    border-bottom: 1px solid #000;
-    border-left: 1px solid #000;
-    padding: 4px;
+  .demo-row {
+    display: flex;
+  }
+
+  .demo-cell {
     box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
   }
 }
 </style>

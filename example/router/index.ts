@@ -18,6 +18,12 @@ const routes = [
       ),
   },
   {
+    path: '/operate',
+    name: 'operate',
+    component: () =>
+      import(/* webpackChunkName: "operate" */ '../views/operate/Main.vue'),
+  },
+  {
     path: '/slot',
     name: 'Slot',
     component: () =>
