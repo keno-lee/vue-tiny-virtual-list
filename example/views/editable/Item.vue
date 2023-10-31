@@ -1,15 +1,31 @@
 <template>
   <div
-    contenteditable="true"
     style="
-      min-height: 44px;
       display: flex;
       align-items: center;
+      min-height: 44px;
       border-bottom: 1px solid #ccc;
-      padding: 6px 10px;
     "
   >
-    <span>{{ itemData.id }} - {{ itemData.text }}</span>
+    <div style="width: 200px; padding: 4px; overflow: hidden">
+      <div>{{ itemData.index }}</div>
+      <div>{{ itemData.id }}</div>
+    </div>
+    <div
+      ref="editor"
+      contenteditable="true"
+      style="
+        flex: 1;
+        align-items: center;
+        border-left: 1px solid #ccc;
+
+        padding: 6px 10px;
+      "
+      @input="changeInput"
+    >
+      {{ itemData.text }}
+    </div>
+    <!-- <span>{{ itemData.id }} - </span> -->
   </div>
 </template>
 
@@ -21,6 +37,15 @@ export default {
       default() {
         return {};
       },
+    },
+  },
+  mounted() {
+    (this.$refs.editor as HTMLElement).innerText = this.itemData.text;
+  },
+  methods: {
+    changeInput(evt: Event) {
+      const { itemData } = this;
+      itemData.text = (evt.target as HTMLElement).innerText;
     },
   },
 };
