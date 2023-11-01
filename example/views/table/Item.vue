@@ -3,7 +3,7 @@
     <div
       class="table-cell"
       style="
-        width: 100px;
+        width: 200px;
         position: sticky;
         left: 0;
         background-color: #fff;
@@ -11,10 +11,9 @@
         overflow: hidden;
       "
     >
-      {{ itemData.id }}
+      {{ itemData.index }} - {{ itemData.id }}
     </div>
     <div class="table-cell" style="width: 600px">{{ itemData.text }}</div>
-    <div class="table-cell" style="width: 600px">{{ itemData.text1 }}</div>
     <div
       class="table-cell"
       style="

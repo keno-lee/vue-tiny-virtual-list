@@ -23,8 +23,8 @@
 
     <div style="padding: 10px 0">
       <span>Total: {{ list.length }} </span>
-      <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
-      <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
+      <!-- <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
+      <span>RenderEnd: {{ reactiveData.renderEnd }} </span> -->
     </div>
 
     <div class="demo-dynamic">
@@ -43,7 +43,77 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import {
+  onBeforeMount,
+  onMounted,
+  ref,
+  nextTick,
+  computed,
+  shallowRef,
+} from 'vue';
+import type { Ref, ShallowRef } from 'vue';
+import { VirtualList } from '@/src/index';
+import { asyncGetList } from '@/example/utils/common';
+import Item from './Item.vue';
+
+const manualNumber = ref(1000);
+const autoNumber = ref(10000);
+const autoFlag = ref(false);
+const loading = ref(false);
+const virtualListRef: Ref<InstanceType<typeof VirtualList> | null> = ref(null);
+const list: ShallowRef<any[]> = shallowRef([]);
+
+onBeforeMount(async () => {
+  list.value = await asyncGetList(1);
+});
+
+onMounted(() => {
+  // this.reactiveData = (
+  //     this.$refs.virtualListRef as InstanceType<typeof VirtualList>
+  //   ).reactiveData;
+  virtualListRef.value?.forceUpdate();
+});
+
+function generateList(length: number) {
+  return new Promise((resolve) => {
+    if (loading.value) return;
+    loading.value = true;
+    setTimeout(async () => {
+      const newList = await asyncGetList(length, list.value.length);
+      list.value = list.value.concat(newList);
+      loading.value = false;
+
+      console.log(list.value);
+
+      nextTick(() => {
+        virtualListRef.value?.scrollToBottom();
+        resolve(null);
+      });
+    }, 0);
+  });
+}
+async function manualAddList() {
+  autoFlag.value = false;
+  return generateList(manualNumber.value);
+}
+async function autoGenerate() {
+  if (autoFlag.value && list.value.length < 700002) {
+    await generateList(autoNumber.value);
+    autoGenerate();
+  }
+}
+async function autoAddList() {
+  autoFlag.value = !autoFlag.value;
+  autoGenerate();
+}
+function deleteItem(id: number) {
+  const targetIndex = list.value.findIndex((row) => row.id === id);
+  list.value.splice(targetIndex, 1);
+}
+</script>
+
+<!-- <script lang="ts">
 import { VirtualList } from '@/src/index';
 import { asyncGetList } from '@/example/utils/common';
 import Item from './Item.vue';
@@ -69,7 +139,7 @@ export default {
     };
   },
   async created() {
-    this.list = await asyncGetList(1);
+    list = await asyncGetList(1);
   },
   mounted() {
     this.reactiveData = (
@@ -79,12 +149,12 @@ export default {
   methods: {
     generateList(length: number) {
       return new Promise((resolve) => {
-        if (this.loading) return;
-        this.loading = true;
+        if (loading.value) return;
+        loading.value = true;
         setTimeout(async () => {
-          const newList = await asyncGetList(length, this.list.length);
-          this.list = this.list.concat(newList);
-          this.loading = false;
+          const newList = await asyncGetList(length, list.length);
+          list = list.concat(newList);
+          loading.value = false;
 
           this.$nextTick(() => {
             (
@@ -110,12 +180,12 @@ export default {
       this.autoGenerate();
     },
     deleteItem(id: number) {
-      const targetIndex = this.list.findIndex((row) => row.id === id);
-      this.list.splice(targetIndex, 1);
+      const targetIndex = list.findIndex((row) => row.id === id);
+      list.splice(targetIndex, 1);
     },
   },
 };
-</script>
+</script> -->
 
 <style lang="scss">
 .demo-dynamic {

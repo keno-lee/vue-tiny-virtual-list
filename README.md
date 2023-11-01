@@ -1,6 +1,10 @@
 # vue-tiny-virtual-list 虚拟列表 虚拟滚动列表
 
-## [优点](https://keno-lee.notion.site/vue-tiny-virtual-list-a6f35a24029b445da4d1a20e8dc881cf?pvs=4)
+👉 [优势介绍](https://d8diegi800.feishu.cn/wiki/MX2Vwn1RWiwUsokjhshcr6sVnNb?from=from_copylink)
+
+👉 [在线演示地址](https://keno-lee.github.io/vue-tiny-virtual-list/)
+
+## 优点
 
 - 使用 vue-demi，支持 vue2.x 和 vue3.x
 - 百万级数据 高性能、满帧率渲染
@@ -10,8 +14,6 @@
 - 支持向上平滑滚动
 - 滚动不丢失 selection
 - O(1) 复杂度的滚动增量计算
-
-## [在线演示地址](https://keno-lee.github.io/vue-tiny-virtual-list/)
 
 ## 使用
 

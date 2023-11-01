@@ -6,44 +6,47 @@
       <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
     </div>
 
-    <div class="demo-table">
-      <VirtualList
-        :list="list"
-        :minSize="40"
-        ref="virtualListRef"
-        itemKey="id"
-        headerClass="header"
-        :headerStyle="`width: ${1400}px;`"
-        :listStyle="`width: ${1400}px;`"
+    <div style="padding: 10px 0">
+      这里是一个简单的table示例，更丰富的功能会在
+      <a
+        target="_blank"
+        href="https://github.com/keno-lee/vue-tiny-virtual-table"
+        >vue-tiny-virtual-table</a
       >
+      中完成
+    </div>
+
+    <div class="demo-table">
+      <VirtualList ref="virtualListRef" :list="list" :minSize="40" itemKey="id">
         <template #default="{ itemData }">
           <Item :itemData="itemData" />
         </template>
-        <template #header>
-          <div
-            class="header-table-cell"
-            style="
-              width: 100px;
-              position: sticky;
-              left: 0;
-              background-color: #fff;
-              overflow: hidden;
-            "
-          >
-            id
-          </div>
-          <div class="header-table-cell" style="width: 600px">原文</div>
-          <div class="header-table-cell" style="width: 600px">译文</div>
-          <div
-            class="header-table-cell"
-            style="
-              width: 100px;
-              position: sticky;
-              right: 0;
-              background-color: #fff;
-            "
-          >
-            操作
+        <template #stickyHeader>
+          <div class="header">
+            <div
+              class="header-cell"
+              style="
+                width: 200px;
+                position: sticky;
+                left: 0;
+                background-color: #fff;
+                overflow: hidden;
+              "
+            >
+              id
+            </div>
+            <div class="header-cell" style="width: 600px">原文</div>
+            <div
+              class="header-cell"
+              style="
+                width: 100px;
+                position: sticky;
+                right: 0;
+                background-color: #fff;
+              "
+            >
+              操作
+            </div>
           </div>
         </template>
       </VirtualList>
@@ -88,37 +91,37 @@ export default {
   overflow: hidden;
   border: 1px solid #000;
 
+  .header {
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+    width: min-content;
+
+    .header-cell {
+      box-sizing: border-box;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      background-color: #fff;
+    }
+  }
+
   .table-row {
     display: flex;
     width: min-content;
-  }
 
-  .header-table-cell {
-    box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    background-color: #fff;
+    .table-cell {
+      box-sizing: border-box;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      background-color: #fff;
+      padding: 10px;
+    }
   }
-
-  .table-cell {
-    box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    background-color: #fff;
-    padding: 10px;
-  }
-}
-
-.header {
-  height: 40px;
-  line-height: 40px;
-  display: flex;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  text-align: center;
-  background: #fff;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-  width: min-content;
 }
 </style>
