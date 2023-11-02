@@ -51,8 +51,6 @@ import {
   nextTick,
   computed,
   shallowRef,
-  reactive,
-  shallowReactive,
 } from 'vue';
 import type { Ref, ShallowRef } from 'vue';
 import { VirtualList } from '@/src/index';
@@ -87,8 +85,6 @@ function generateList(length: number) {
       list.value = list.value.concat(newList);
       loading.value = false;
 
-      console.log(list.value);
-
       nextTick(() => {
         virtualListRef.value?.scrollToBottom();
         resolve(null);
@@ -115,80 +111,6 @@ function deleteItem(id: number) {
   list.value.splice(targetIndex, 1);
 }
 </script>
-
-<!-- <script lang="ts">
-import { VirtualList } from '@/src/index';
-import { asyncGetList } from '@/example/utils/common';
-import Item from './Item.vue';
-
-export default {
-  name: 'DemoDynamic',
-  components: {
-    VirtualList,
-    Item,
-  },
-  data() {
-    return {
-      list: [] as any[],
-
-      manualNumber: 1000,
-      autoNumber: 10,
-      autoFlag: false,
-      loading: false,
-      reactiveData: {
-        renderBegin: 0,
-        renderEnd: 0,
-      },
-    };
-  },
-  async created() {
-    list = await asyncGetList(1);
-  },
-  mounted() {
-    this.reactiveData = (
-      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-    ).reactiveData;
-  },
-  methods: {
-    generateList(length: number) {
-      return new Promise((resolve) => {
-        if (loading.value) return;
-        loading.value = true;
-        setTimeout(async () => {
-          const newList = await asyncGetList(length, list.length);
-          list = list.concat(newList);
-          loading.value = false;
-
-          this.$nextTick(() => {
-            (
-              this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-            ).scrollToBottom();
-            resolve(null);
-          });
-        }, 0);
-      });
-    },
-    async manualAddList() {
-      this.autoFlag = false;
-      return this.generateList(this.manualNumber);
-    },
-    async autoGenerate() {
-      if (this.autoFlag) {
-        await this.generateList(this.autoNumber);
-        this.autoGenerate();
-      }
-    },
-    async autoAddList() {
-      this.autoFlag = !this.autoFlag;
-      this.autoGenerate();
-    },
-    deleteItem(id: number) {
-      const targetIndex = list.findIndex((row) => row.id === id);
-      list.splice(targetIndex, 1);
-    },
-  },
-};
-</script> -->
 
 <style lang="scss">
 .demo-dynamic {
