@@ -29,7 +29,7 @@ npm install vue-tiny-virtual-list
   <div style="width: 500px; height: 400px">
     <VirtualList itemKey="id" :list="list" :minSize="40">
       <template #default="{ itemData }">
-        <Item :itemData="itemData" />
+        <div>{{ itemData.id }} - {{ itemData.text }}</div>
       </template>
     </VirtualList>
   </div>
@@ -43,7 +43,7 @@ npm install vue-tiny-virtual-list
     components: { VirtualList },
     data() {
       return {
-        list: [],
+        list: [{ id: 0, text: 'text' }],
       };
     },
   };
