@@ -36,7 +36,7 @@ npm install vue-tiny-virtual-list
 </template>
 
 <script>
-  import { VirtualList } from 'hoyo-virtual-list';
+  import { VirtualList } from 'vue-tiny-virtual-list';
   import Item from './Item';
 
   export default {
