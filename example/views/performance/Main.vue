@@ -58,7 +58,7 @@ import { asyncGetList } from '@/example/utils/common';
 import Item from './Item.vue';
 
 const manualNumber = ref(1000);
-const autoNumber = ref(10000);
+const autoNumber = ref(10);
 const autoFlag = ref(false);
 const loading = ref(false);
 const virtualListRef: Ref<InstanceType<typeof VirtualList> | null> = ref(null);

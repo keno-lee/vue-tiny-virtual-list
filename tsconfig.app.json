@@ -1,9 +1,7 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  // "include": ["env.d.ts", "example/**/*", "example/**/*.vue"],
-  // "exclude": ["example/**/__tests__/*"],
-  "include": ["src", "example"],
-  "exclude": ["node_modules", "lib"],
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["env.d.ts", "example/**/*", "example/**/*.vue", "src/*.js"],
+  "exclude": ["example/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
     "types": ["node"],
