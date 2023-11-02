@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  isVue2,
   defineComponent,
   onBeforeMount,
   onMounted,
@@ -9,7 +10,38 @@ import {
   shallowRef,
   watch,
   type ShallowRef,
+  type VNodeChildren,
 } from 'vue-demi';
+import { h } from 'vue';
+
+function polyfillAttr(rest: Record<string, any>, attrs: Record<string, any>) {
+  return isVue2
+    ? {
+        ...rest,
+        attrs: attrs,
+      }
+    : {
+        ...rest,
+        ...attrs,
+      };
+}
+type RawChildren =
+  | VNodeChildren
+  | {
+      default: () => VNodeChildren;
+    };
+
+function polyfillChildren(children: any[]): RawChildren {
+  return isVue2
+    ? children
+    : {
+        default: () => children,
+      };
+}
+
+function polyfillSlot(slot: any) {
+  return isVue2 ? slot : slot?.();
+}
 
 const ObserverItem = defineComponent({
   name: 'ObserverItem',
@@ -44,10 +76,15 @@ const ObserverItem = defineComponent({
   },
   render() {
     const { id } = this;
-    return (
-      <div ref="itemRefEl" data-id={id}>
-        {this.$slots.default}
-      </div>
+    return h(
+      'div',
+      polyfillAttr(
+        { ref: 'itemRefEl' },
+        {
+          'data-id': id,
+        },
+      ),
+      [polyfillSlot(this.$slots.default)],
     );
   },
 });
@@ -768,64 +805,84 @@ const VirtualList = defineComponent({
 
     const { header, footer, stickyHeader, stickyFooter } = this.$slots;
 
-    const renderStickyHeaderSlot = () => {
-      return stickyHeader ? (
-        <ObserverItem
-          id="stickyHeader"
-          resizeObserver={resizeObserver}
-          key="slot-sticky-header"
-          class={stickyHeaderClass}
-          style={`position: sticky; z-index: 10; ${
-            horizontal ? 'left: 0' : 'top: 0;'
-          } ${stickyHeaderStyle}`}
-        >
-          {this.$slots.stickyHeader}
-        </ObserverItem>
-      ) : null;
+    const renderStickyHeaderSlot = (): any => {
+      return stickyHeader
+        ? h(
+            ObserverItem,
+            polyfillAttr(
+              {
+                key: 'slot-sticky-header',
+                class: stickyHeaderClass,
+                style: `position: sticky; z-index: 10; ${
+                  horizontal ? 'left: 0' : 'top: 0;'
+                } ${stickyHeaderStyle}`,
+              },
+              {
+                id: 'stickyHeader',
+                resizeObserver: resizeObserver,
+              },
+            ),
+            [polyfillSlot(stickyHeader)],
+          )
+        : null;
     };
 
     const renderStickyFooterSlot = () => {
-      return stickyFooter ? (
-        <ObserverItem
-          id="stickyFooter"
-          resizeObserver={resizeObserver}
-          key="slot-sticky-footer"
-          class={stickyFooterClass}
-          style={`position: sticky; z-index: 10; ${
-            horizontal ? 'right: 0' : 'bottom: 0;'
-          } ${stickyFooterStyle}`}
-        >
-          {this.$slots.stickyFooter}
-        </ObserverItem>
-      ) : null;
+      return stickyFooter
+        ? h(
+            ObserverItem,
+            polyfillAttr(
+              {
+                key: 'slot-sticky-footer',
+                class: stickyFooterClass,
+                style: `position: sticky; z-index: 10; ${
+                  horizontal ? 'right: 0' : 'bottom: 0;'
+                } ${stickyFooterStyle}`,
+              },
+              {
+                id: 'stickyFooter',
+                resizeObserver: resizeObserver,
+              },
+            ),
+            [polyfillSlot(stickyFooter)],
+          )
+        : null;
     };
 
     const renderHeaderSlot = () => {
-      return header ? (
-        <ObserverItem
-          id="header"
-          resizeObserver={resizeObserver}
-          key="slot-header"
-          class={headerClass}
-          style={headerStyle}
-        >
-          {this.$slots.header}
-        </ObserverItem>
-      ) : null;
+      return header
+        ? h(
+            ObserverItem,
+            polyfillAttr(
+              { key: 'slot-header', class: headerClass, style: headerStyle },
+              {
+                id: 'header',
+                resizeObserver: resizeObserver,
+              },
+            ),
+            [polyfillSlot(header)],
+          )
+        : null;
     };
 
     const renderFooterSlot = () => {
-      return footer ? (
-        <ObserverItem
-          id="footer"
-          resizeObserver={resizeObserver}
-          key="slot-footer"
-          class={footerClass}
-          style={footerStyle}
-        >
-          {this.$slots.footer}
-        </ObserverItem>
-      ) : null;
+      return footer
+        ? h(
+            ObserverItem,
+            polyfillAttr(
+              {
+                key: 'slot-footer',
+                class: footerClass,
+                style: footerStyle,
+              },
+              {
+                id: 'footer',
+                resizeObserver: resizeObserver,
+              },
+            ),
+            [polyfillSlot(footer)],
+          )
+        : null;
     };
 
     const { listTotalSize, virtualSize } = reactiveData;
@@ -835,13 +892,25 @@ const VirtualList = defineComponent({
       for (let index = 0; index < filterList.length; index += 1) {
         const currentItem = filterList[index];
         mainList.push(
-          <ObserverItem
-            id={currentItem[itemKey]}
-            resizeObserver={resizeObserver}
-            key={currentItem[itemKey]}
-          >
-            {this.$scopedSlots?.default?.({ itemData: currentItem })}
-          </ObserverItem>,
+          h(
+            ObserverItem,
+            polyfillAttr(
+              {
+                key: currentItem[itemKey],
+              },
+              {
+                id: currentItem[itemKey],
+                resizeObserver: resizeObserver,
+              },
+            ),
+            polyfillChildren([
+              isVue2
+                ? this.$scopedSlots?.default?.({ itemData: currentItem })
+                : (this.$slots?.default?.({
+                    itemData: currentItem,
+                  }) as VNodeChildren),
+            ]) as VNodeChildren,
+          ),
         );
       }
 
@@ -849,17 +918,20 @@ const VirtualList = defineComponent({
         ? `will-change: width; min-width: ${listTotalSize}px; display: flex; ${listStyle}`
         : `will-change: height; min-height: ${listTotalSize}px; ${listStyle}`;
 
-      return (
-        <div ref="listRefEl" style={dynamicListStyle}>
-          <div
-            style={
-              horizontal
-                ? `width: ${virtualSize}px; will-change: width;`
-                : `height: ${virtualSize}px; will-change: height;`
-            }
-          ></div>
-          {mainList}
-        </div>
+      return h(
+        'div',
+        {
+          ref: 'listRefEl',
+          style: dynamicListStyle,
+        },
+        [
+          h('div', {
+            style: horizontal
+              ? `width: ${virtualSize}px; will-change: width;`
+              : `height: ${virtualSize}px; will-change: height;`,
+          }),
+          mainList,
+        ],
       );
     };
 
@@ -867,23 +939,26 @@ const VirtualList = defineComponent({
     //   return <div style={`float: left; height: ${listTotalSize}px`}></div>; // 虚拟滚动条
     // };
 
-    return (
-      <ObserverItem
-        id="client"
-        resizeObserver={resizeObserver}
-        class="virtual-list__client"
-        style={`width: 100%; height: 100%; overflow: overlay;`}
-        ref="clientRef"
-      >
-        {[
-          // renderVirtualScrollbar(),
-          renderStickyHeaderSlot(),
-          renderHeaderSlot(),
-          renderMainList(),
-          renderFooterSlot(),
-          renderStickyFooterSlot(),
-        ]}
-      </ObserverItem>
+    return h(
+      ObserverItem,
+      polyfillAttr(
+        {
+          class: 'virtual-list__client',
+          style: `width: 100%; height: 100%; overflow: overlay;`,
+          ref: 'clientRef',
+        },
+        {
+          id: 'client',
+          resizeObserver: resizeObserver,
+        },
+      ),
+      polyfillChildren([
+        renderStickyHeaderSlot(),
+        renderHeaderSlot(),
+        renderMainList(),
+        renderFooterSlot(),
+        renderStickyFooterSlot(),
+      ]) as VNodeChildren,
     );
   },
 });

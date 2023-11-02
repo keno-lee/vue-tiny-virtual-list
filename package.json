@@ -1,6 +1,6 @@
 {
   "name": "vue-tiny-virtual-list",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Virtual render list & Huge amount data & High performance (support vue2.x&vue3.x)",
   "author": "keno-lee",
   "license": "MIT",
@@ -8,9 +8,9 @@
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "vite example --host -c ./scripts/dev.js --port 8888",
-    "build:docs": "vite build -c ./scripts/build.docs.js",
-    "build": "vite build -c ./scripts/build.js && tsc -p tsconfig.build.json",
+    "dev": "vite example --host -c ./scripts/dev.ts --port 8888",
+    "build:docs": "vite build -c ./scripts/build.docs.ts",
+    "build": "vite build -c ./scripts/build.ts && tsc -p tsconfig.build.json",
     "lint": "eslint ./example --ext .vue,.ts,.tsx,.js,.jsx --fix"
   },
   "peerDependencies": {
