@@ -1,11 +1,14 @@
 # vue-tiny-virtual-list 虚拟列表 虚拟滚动列表
 
-👉 [优势介绍](https://d8diegi800.feishu.cn/wiki/MX2Vwn1RWiwUsokjhshcr6sVnNb?from=from_copylink)
+👉 <a href="https://d8diegi800.feishu.cn/wiki/MX2Vwn1RWiwUsokjhshcr6sVnNb?from=from_copylink" target="_blank">优势介绍</a>
 
-👉 [在线演示地址](https://keno-lee.github.io/vue-tiny-virtual-list/)
+👉 <a href="https://keno-lee.github.io/vue-tiny-virtual-list/" target="_blank">在线演示地址</a>
+
+👉 <a href="https://www.npmjs.com/package/vue-tiny-virtual-list" target="_blank">npm</a>
 
 ## 优点
 
+- 轻量 8K(gzipped 3k)
 - 使用 vue-demi，支持 vue2.x 和 vue3.x
 - 百万级数据 高性能、满帧率渲染
 - 支持横向和纵向滚动
