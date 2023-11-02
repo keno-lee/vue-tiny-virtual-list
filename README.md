@@ -21,13 +21,13 @@
 ## 使用
 
 ```shell
-npm install vue-tiny-virtual-list
+npm install vue-tiny-virtual-list -S
 ```
 
 ```html
 <template>
   <div style="width: 500px; height: 400px">
-    <VirtualList itemKey="id" :list="list" :minSize="40">
+    <VirtualList itemKey="id" :list="list" :minSize="20">
       <template #default="{ itemData }">
         <div>{{ itemData.id }} - {{ itemData.text }}</div>
       </template>
@@ -37,8 +37,6 @@ npm install vue-tiny-virtual-list
 
 <script>
   import { VirtualList } from 'vue-tiny-virtual-list';
-  import Item from './Item';
-
   export default {
     components: { VirtualList },
     data() {
