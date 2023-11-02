@@ -1,0 +1,35 @@
+name: Node.js Package
+
+# 执行脚本的生命周期
+on:
+  #选择在 push 到 github 时触发工作流
+  push:
+    #分支可以选择多个
+    branches: [beta]
+
+# 一个 workflow 可以有多个 job
+jobs:
+  build:
+    # 指定操作系统为'ubuntu-latest'
+    runs-on: ubuntu-latest
+    steps:
+      # 检查仓库以便作业能正常访问
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      # npm ci命令类似于 npm install 但它旨在用于自动化环境，如测试平台，持续集成和部署
+      # 可以帮助捕获由大多数 npm 用户的增量安装的本地环境引起的错误或不一致
+      - run: npm ci
+
+      # 打包
+      - run: npm run build
+
+      # 发布命令
+      - run: npm publish --beta
+        env:
+          # npm_token 就是刚刚填写 token 时取的名字
+          NODE_AUTH_TOKEN: ${{ secrets.NPMJS }}
