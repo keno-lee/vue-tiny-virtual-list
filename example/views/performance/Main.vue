@@ -23,8 +23,8 @@
 
     <div style="padding: 10px 0">
       <span>Total: {{ list.length }} </span>
-      <!-- <span>RenderBegin: {{ reactiveData.renderBegin }} </span>
-      <span>RenderEnd: {{ reactiveData.renderEnd }} </span> -->
+      <span>RenderBegin: {{ reactiveData?.renderBegin }} </span>
+      <span>RenderEnd: {{ reactiveData?.renderEnd }} </span>
     </div>
 
     <div class="demo-dynamic">
@@ -51,6 +51,8 @@ import {
   nextTick,
   computed,
   shallowRef,
+  reactive,
+  shallowReactive,
 } from 'vue';
 import type { Ref, ShallowRef } from 'vue';
 import { VirtualList } from '@/src/index';
@@ -64,14 +66,15 @@ const loading = ref(false);
 const virtualListRef: Ref<InstanceType<typeof VirtualList> | null> = ref(null);
 const list: ShallowRef<any[]> = shallowRef([]);
 
+const reactiveData = computed(() => {
+  return virtualListRef.value?.reactiveData;
+});
+
 onBeforeMount(async () => {
   list.value = await asyncGetList(1);
 });
 
 onMounted(() => {
-  // this.reactiveData = (
-  //     this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-  //   ).reactiveData;
   virtualListRef.value?.forceUpdate();
 });
 

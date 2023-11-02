@@ -46,8 +46,8 @@ body {
   overflow: hidden;
 
   .sidebar {
-    width: 100px;
-    min-width: 100px;
+    width: 120px;
+    min-width: 120px;
     height: 100%;
     display: flex;
     flex-direction: column;

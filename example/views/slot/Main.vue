@@ -14,10 +14,10 @@
         :list="list"
         ref="virtualListRef"
         itemKey="id"
-        stickyHeaderStyle="height: 40px; background: green;"
-        headerStyle="height: 80px; background: red"
-        footerStyle="height: 80px; background: red"
-        stickyFooterStyle="height: 40px; background: green;"
+        stickyHeaderStyle="text-align: center; height: 40px; background: #42b983;"
+        headerStyle="text-align: center; height: 80px; background: cyan"
+        footerStyle="text-align: center; height: 80px; background: cyan"
+        stickyFooterStyle="text-align: center; height: 40px; background: #42b983;"
       >
         <template #default="{ itemData }">
           <Item :itemData="itemData" />
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       visible: true,
-      list: getList(1000),
+      list: getList(10),
     };
   },
   async mounted() {
