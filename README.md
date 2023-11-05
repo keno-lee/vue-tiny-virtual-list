@@ -12,7 +12,7 @@
 
 👉 <a href="https://keno-lee.github.io/vue-tiny-virtual-list/" target="_blank">Live demo</a>
 
-## 优点
+## Advantages
 
 - Tiny: 8K (gzipped 3k)
 - Works for both Vue 3 and 2 (Use vue-demi)
@@ -24,7 +24,7 @@
 - O(1) complexity rolling increment calculation
 - Supports a variety of slots to choose from, and supports expansion in various scenarios (tables, wireless loading, chat rooms, merged cells, etc.)
 
-## 使用
+## Start
 
 ```shell
 npm install vue-tiny-virtual-list -S
