@@ -2,10 +2,10 @@ name: Node.js Package
 
 # 执行脚本的生命周期
 on:
-  #选择在 push 到 github 时触发工作流
+  # 选择在 push 到 github 时触发工作流
   push:
-    #分支可以选择多个
-    branches: [master]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 # 一个 workflow 可以有多个 job
 jobs:
