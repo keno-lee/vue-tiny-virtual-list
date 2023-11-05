@@ -63,9 +63,9 @@ npm install vue-tiny-virtual-list -S
 | minSize      | Minimum size, the number in the visible area will be calculated based on this size                                                                           | `Number`         | -       | `true`   |
 | fixed        | Fixed height mode can improve performance                                                                                                                    | `Number`         | -       | `false`  |
 | buffer       | When the amount of rendering is large and the scrolling white screen is serious, you can give values, and bufferTop and bufferBottom will be equal to buffer | `Number`         | `0`     | `false`  |
-| bufferTop    | 顶部 buffer 个数                                                                                                                                             | `Number`         | `0`     | `false`  |
-| bufferBottom | buffer for footer                                                                                                                                            | `Number`         | `0`     | `false`  |
-| horizontal   | is horizontal                                                                                                                                                | `Boolean`        | `false` | `false`  |
+| bufferTop    | buffer for top                                                                                                                                               | `Number`         | `0`     | `false`  |
+| bufferBottom | buffer for bottom                                                                                                                                            | `Number`         | `0`     | `false`  |
+| horizontal   | horizontal mode                                                                                                                                              | `Boolean`        | `false` | `false`  |
 
 ### slot
 
