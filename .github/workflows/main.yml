@@ -5,7 +5,7 @@ on:
   #选择在 push 到 github 时触发工作流
   push:
     #分支可以选择多个
-    branches: [beta]
+    branches: [master]
 
 # 一个 workflow 可以有多个 job
 jobs:

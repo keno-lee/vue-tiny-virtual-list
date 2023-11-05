@@ -404,7 +404,7 @@ const VirtualList = defineComponent({
 
     function updateRange(start: number) {
       // 修复vue2-diff的bug
-      if (reactiveData.inViewBegin < start) {
+      if (direction === 'backward') {
         fixSelection();
       }
 
@@ -780,16 +780,7 @@ const VirtualList = defineComponent({
     };
   },
   render() {
-    const {
-      props,
-      filterList,
-
-      itemKey,
-      reactiveData,
-
-      resizeObserver,
-    } = this;
-
+    const { filterList, itemKey, reactiveData, resizeObserver } = this;
     const {
       horizontal,
       listStyle,
@@ -801,8 +792,7 @@ const VirtualList = defineComponent({
       stickyHeaderStyle,
       stickyFooterClass,
       stickyFooterStyle,
-    } = props;
-
+    } = this.props;
     const { header, footer, stickyHeader, stickyFooter } = this.$slots;
 
     const renderStickyHeaderSlot = (): any => {
@@ -906,9 +896,9 @@ const VirtualList = defineComponent({
             polyfillChildren([
               isVue2
                 ? this.$scopedSlots?.default?.({ itemData: currentItem })
-                : (this.$slots?.default?.({
+                : (this.$slots as any).default?.({
                     itemData: currentItem,
-                  }) as VNodeChildren),
+                  }),
             ]) as VNodeChildren,
           ),
         );
