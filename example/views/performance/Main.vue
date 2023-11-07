@@ -62,7 +62,7 @@ const autoNumber = ref(10);
 const autoFlag = ref(false);
 const loading = ref(false);
 const virtualListRef: Ref<InstanceType<typeof VirtualList> | null> = ref(null);
-const list: ShallowRef<any[]> = shallowRef([]);
+const list: Ref<any[]> = ref([]);
 
 const reactiveData = computed(() => {
   return virtualListRef.value?.reactiveData;

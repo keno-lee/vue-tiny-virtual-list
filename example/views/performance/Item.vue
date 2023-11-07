@@ -26,7 +26,7 @@ export default {
     },
   },
   methods: {
-    deleteItem(id) {
+    deleteItem(id: string) {
       this.$emit('deleteItem', id);
     },
   },
