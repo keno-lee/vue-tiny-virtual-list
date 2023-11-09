@@ -19,7 +19,6 @@
         ref="virtualListRef"
         itemKey="id"
         :minSize="40"
-        fixed
       >
         <template #default="{ itemData }">
           <Item :itemData="itemData" />
