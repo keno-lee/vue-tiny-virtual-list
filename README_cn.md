@@ -56,18 +56,18 @@ npm install vue-tiny-virtual-list -S
 
 ### Attributes
 
-| 参数         | 说明                                                                              | 类型             | 默认值  | 是否必须    |
-| ------------ | --------------------------------------------------------------------------------- | ---------------- | ------- | ----------- |
-| list         | 数据                                                                              | `Array`          | -       | `否`        |
-| itemKey      | 项的 id，必须唯一                                                                 | `String  Number` | -       | `是`        |
-| minSize      | 最小尺寸，会根据这个尺寸来计算可视区域内个数                                      | `Number`         | -       | `否` 建议给 |
-| fixed        | 是否为固定高度，可以提升性能                                                      | `Number`         | -       | `否`        |
-| buffer       | 当渲染量大，滚动白屏严重时，可以给定数值，bufferTop 和 bufferBottom 会等于 buffer | `Number`         | `0`     | `否`        |
-| bufferTop    | 顶部 buffer 个数                                                                  | `Number`         | `0`     | `否`        |
-| bufferBottom | 底部 buffer 个数                                                                  | `Number`         | `0`     | `否`        |
-| horizontal   | 是否水平滚动                                                                      | `Boolean`        | `false` | `否`        |
+| 参数         | 说明                                                                              | 类型             | 默认值  | 是否必须 |
+| ------------ | --------------------------------------------------------------------------------- | ---------------- | ------- | -------- |
+| list         | 数据                                                                              | `Array`          | -       | `否`     |
+| itemKey      | 项的 id，必须唯一                                                                 | `String  Number` | -       | `是`     |
+| minSize      | **最小尺寸**，会根据这个尺寸来计算可视区域内个数                                  | `Number`         | `20`    | `是`     |
+| fixed        | 是否为固定高度，可以提升性能<br />**注意：动态高度模式下，请勿使用**              | `Number`         | `false` | `否`     |
+| buffer       | 当渲染量大，滚动白屏严重时，可以给定数值，bufferTop 和 bufferBottom 会等于 buffer | `Number`         | `0`     | `否`     |
+| bufferTop    | 顶部 buffer 个数                                                                  | `Number`         | `0`     | `否`     |
+| bufferBottom | 底部 buffer 个数                                                                  | `Number`         | `0`     | `否`     |
+| horizontal   | 是否水平滚动                                                                      | `Boolean`        | `false` | `否`     |
 
-### slot
+### Slot
 
 | name          | 说明         |
 | ------------- | ------------ |

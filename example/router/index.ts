@@ -55,6 +55,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "editable" */ '../views/editable/Main.vue'),
   },
+  {
+    path: '/infinity',
+    name: 'infinity',
+    component: () =>
+      import(/* webpackChunkName: "infinity" */ '../views/infinity/Main.vue'),
+  },
 ];
 
 const router = new VueRouter({

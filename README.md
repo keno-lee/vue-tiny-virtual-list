@@ -58,16 +58,16 @@ npm install vue-tiny-virtual-list -S
 
 | Name         | Description                                                                                                                                                  | Type             | Default | Required |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ------- | -------- |
-| list         | data list                                                                                                                                                    | `Array`          | -       | `false`  |
+| list         | data list                                                                                                                                                    | `Array`          | -       | `true`   |
 | itemKey      | list item id                                                                                                                                                 | `String  Number` | -       | `true`   |
-| minSize      | Minimum size, the number in the visible area will be calculated based on this size                                                                           | `Number`         | -       | `true`   |
-| fixed        | Fixed height mode can improve performance                                                                                                                    | `Number`         | -       | `false`  |
+| minSize      | **Minimum size**, the number in the visible area will be calculated based on this size                                                                       | `Number`         | `20`    | `true`   |
+| fixed        | Fixed height mode can improve performance<br />**Note: Do not use it under dynamic height**                                                                  | `Number`         | `false` | `false`  |
 | buffer       | When the amount of rendering is large and the scrolling white screen is serious, you can give values, and bufferTop and bufferBottom will be equal to buffer | `Number`         | `0`     | `false`  |
 | bufferTop    | buffer for top                                                                                                                                               | `Number`         | `0`     | `false`  |
 | bufferBottom | buffer for bottom                                                                                                                                            | `Number`         | `0`     | `false`  |
 | horizontal   | horizontal mode                                                                                                                                              | `Boolean`        | `false` | `false`  |
 
-### slot
+### Slot
 
 | name          | Description        |
 | ------------- | ------------------ |

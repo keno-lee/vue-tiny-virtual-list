@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <Operate
+    <!-- <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
       :visible.sync="visible"
-    ></Operate>
+    ></Operate> -->
 
     <div style="padding: 10px 0">
       <span>Total: {{ list.length }} </span>
@@ -12,16 +12,30 @@
       <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
     </div>
 
-    <div class="demo-operate" style="resize: auto" v-show="visible">
+    <div class="demo-infinity" style="resize: auto" v-show="visible">
       <VirtualList
-        :buffer="2"
-        :list="list"
         ref="virtualListRef"
+        :list="list"
         itemKey="id"
         :minSize="40"
+        :buffer="2"
+        @toBottom="toBottom"
       >
         <template #default="{ itemData }">
           <Item :itemData="itemData" />
+        </template>
+        <template #footer>
+          <div
+            style="
+              width: 100%;
+              height: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            loading...
+          </div>
         </template>
       </VirtualList>
     </div>
@@ -30,38 +44,48 @@
 
 <script lang="ts">
 import { VirtualList } from '@/src/index';
-import { getList } from '@/example/utils/common';
+import { asyncGetList } from '@/example/utils/common';
 import Item from './Item.vue';
 import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
-  name: 'DemoFixed',
+  name: 'DemoInfinity',
   components: {
     Item,
     VirtualList,
-    Operate,
+    // Operate,
   },
   data() {
     return {
       visible: true,
       virtualListRef: null,
-      list: getList(1000),
+      list: [] as any[],
       reactiveData: {
         renderBegin: 0,
         renderEnd: 0,
       },
     };
   },
+  async created() {
+    this.list = await asyncGetList(200);
+  },
   mounted() {
     this.reactiveData = (
       this.$refs.virtualListRef as InstanceType<typeof VirtualList>
     ).reactiveData;
   },
+  methods: {
+    async toBottom() {
+      console.log('toBottom');
+      const list = await asyncGetList(200, this.list.length, 1000);
+      this.list = this.list.concat(list);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.demo-operate {
+.demo-infinity {
   width: 800px;
   height: 500px;
   background-color: #fff;

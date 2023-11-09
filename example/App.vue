@@ -10,7 +10,8 @@
       <router-link class="sidebar-item" to="/editable"
         >可编辑单元格</router-link
       >
-      <!-- <router-link class="sidebar-item" to="/infinity">无限加载</router-link>
+      <router-link class="sidebar-item" to="/infinity">无限加载</router-link>
+      <!-- 
       <router-link class="sidebar-item" to="/chat">聊天室</router-link> -->
       <!-- <router-link class="sidebar-item" to="/pagination">分页-触底</router-link> -->
       <!-- <router-link class="sidebar-item" to="/tree">树形</router-link> -->
