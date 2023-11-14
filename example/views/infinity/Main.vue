@@ -12,7 +12,7 @@
       <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
     </div>
 
-    <div class="demo-infinity" style="resize: auto" v-show="visible">
+    <div class="demo-infinity" v-show="visible">
       <VirtualList
         ref="virtualListRef"
         :list="list"
@@ -46,7 +46,7 @@
 import { VirtualList } from '@/src/index';
 import { asyncGetList } from '@/example/utils/common';
 import Item from './Item.vue';
-import Operate from '@/example/components/OperateGroup.vue';
+// import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
   name: 'DemoInfinity',
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       visible: true,
-      virtualListRef: null,
       list: [] as any[],
       reactiveData: {
         renderBegin: 0,
@@ -70,9 +69,7 @@ export default {
     this.list = await asyncGetList(200);
   },
   mounted() {
-    this.reactiveData = (
-      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-    ).reactiveData;
+    this.reactiveData = (this.$refs.virtualListRef as any).reactiveData;
   },
   methods: {
     async toBottom() {
@@ -100,6 +97,7 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
+    padding: 4px;
   }
 }
 </style>

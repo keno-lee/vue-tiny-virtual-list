@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       visible: true,
-      list: getList(10),
+      list: getList(1000),
     };
   },
   async mounted() {
@@ -85,6 +85,7 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
+    padding: 4px;
   }
 }
 </style>

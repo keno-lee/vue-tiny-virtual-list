@@ -76,9 +76,7 @@ export default {
     };
   },
   mounted() {
-    this.reactiveData = (
-      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-    ).reactiveData;
+    this.reactiveData = (this.$refs.virtualListRef as any).reactiveData;
   },
 };
 </script>

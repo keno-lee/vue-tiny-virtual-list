@@ -31,6 +31,29 @@ type RawChildren =
       default: () => VNodeChildren;
     };
 
+type ReactiveData = {
+  views: number;
+
+  // 滚动距离
+  offset: number;
+  // 不包含插槽的高度
+  listTotalSize: number;
+  // 虚拟占位尺寸，是从0到renderBegin的尺寸
+  virtualSize: number;
+  // 可视区的起始下标
+  inViewBegin: number;
+  // 可视区的结束下标
+  inViewEnd: number;
+
+  // buffer的起始下标
+  renderBegin: number;
+  // buffer的结束下标
+  renderEnd: number;
+
+  bufferTop: number;
+  bufferBottom: number;
+};
+
 function polyfillChildren(children: any[]): RawChildren {
   return isVue2
     ? children
@@ -54,6 +77,10 @@ const ObserverItem = defineComponent({
       type: [String, Number],
       require: true,
     },
+    unmount: {
+      type: Function,
+      default: undefined,
+    },
   },
   setup(props) {
     const itemRefEl = ref(null);
@@ -67,6 +94,9 @@ const ObserverItem = defineComponent({
     onBeforeUnmount(() => {
       if (props.resizeObserver && itemRefEl.value) {
         props.resizeObserver.unobserve(itemRefEl.value);
+      }
+      if (props.unmount) {
+        props.unmount();
       }
     });
 
@@ -147,6 +177,18 @@ const VirtualList = defineComponent({
       type: String,
       default: '',
     },
+    listClass: {
+      type: String,
+      default: '',
+    },
+    itemStyle: {
+      type: String,
+      default: '',
+    },
+    itemClass: {
+      type: String,
+      default: '',
+    },
     headerClass: {
       type: String,
       default: '',
@@ -187,7 +229,8 @@ const VirtualList = defineComponent({
     const renderKey = ref(new Date().getTime());
     let direction: 'forward' | 'backward' = 'backward';
     // 一个手动设置滚动的标志位，用来判断是否需要纠正滚动位置
-    let setScrollFlag = false;
+    let fixOffset = false;
+    let forceFixOffset = false;
     const slotSize = {
       clientSize: 0,
       headerSize: 0,
@@ -197,7 +240,7 @@ const VirtualList = defineComponent({
     };
 
     // 全局需要响应式的数据
-    const reactiveData = reactive({
+    const reactiveData: ReactiveData = reactive({
       // 可视区域的个数，不算buffer，只和clientSize和minSize有关
       views: 0,
 
@@ -227,6 +270,15 @@ const VirtualList = defineComponent({
     }
     function getSlotSize() {
       return (
+        slotSize.headerSize +
+        slotSize.footerSize +
+        slotSize.stickyHeaderSize +
+        slotSize.stickyFooterSize
+      );
+    }
+    function getTotalSize() {
+      return (
+        reactiveData.listTotalSize +
         slotSize.headerSize +
         slotSize.footerSize +
         slotSize.stickyHeaderSize +
@@ -267,15 +319,12 @@ const VirtualList = defineComponent({
       };
     }
 
-    function scrollToOffset(offset: number) {
-      // console.log('scrollToOffset', offset);
-      setScrollFlag = true;
+    function scrollToOffset(offset: number, needForceFixOffset = false) {
+      if (needForceFixOffset) {
+        forceFixOffset = true;
+      }
       const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
       if (clientRef.value?.$el) clientRef.value.$el[directionKey] = offset;
-
-      setTimeout(() => {
-        setScrollFlag = false;
-      }, 0);
     }
     // expose 滚动到指定下标
     async function scrollToIndex(index: number) {
@@ -354,16 +403,10 @@ const VirtualList = defineComponent({
     }
     // expose 滚动到底部
     async function scrollToBottom() {
-      const lastListTotalSize =
-        reactiveData.listTotalSize + slotSize.headerSize + slotSize.footerSize;
-      scrollToOffset(lastListTotalSize);
+      scrollToOffset(getTotalSize());
 
       setTimeout(() => {
-        const currentSize =
-          reactiveData.listTotalSize +
-          slotSize.headerSize +
-          slotSize.footerSize;
-        if (lastListTotalSize < currentSize) {
+        if (reactiveData.offset + slotSize.clientSize < getTotalSize()) {
           scrollToBottom();
         }
       }, 0);
@@ -420,23 +463,22 @@ const VirtualList = defineComponent({
       const { itemKey } = props;
 
       const offsetWithNoHeader = offset - slotSize.headerSize;
-      // 如果滚动距离还在header范围内，是不需要计算的
+      let start = inViewBegin;
+      let offsetReduce = getVirtualSize2beginInView();
+
+      // 当有顶部插槽的时候，快速滚动到顶部，则需要判断，并直接修正
       if (offsetWithNoHeader < 0) {
         updateRange(0);
         return;
       }
 
-      // 进入计算
-      let start = inViewBegin;
-      let offsetReduce = getVirtualSize2beginInView();
       if (direction === 'forward') {
+        // 1. 没发生变化
+        if (offsetWithNoHeader >= offsetReduce) {
+          // console.log(`👆🏻👆🏻👆🏻👆🏻 for break 没变 start ${start}`);
+          return;
+        }
         for (let i = start - 1; i >= 0; i -= 1) {
-          // 1. 没发生变化
-          if (i === start - 1 && offsetWithNoHeader >= offsetReduce) {
-            start = i + 1;
-            // console.log(`👆🏻👆🏻👆🏻👆🏻 for break 没变 start ${start}`);
-            break;
-          }
           // 2. 变化了
           const currentSize = getItemSize(props.list[i]?.[itemKey]);
           offsetReduce -= currentSize;
@@ -450,15 +492,21 @@ const VirtualList = defineComponent({
             break;
           }
         }
-      } else {
+
+        // 向上滚动需要修正
+        fixOffset = true;
+      }
+
+      if (direction === 'backward') {
+        if (offsetWithNoHeader <= offsetReduce) {
+          // console.log(`👆🏻👆🏻👆🏻👆🏻 for break 没变 start ${start}`);
+          return;
+        }
         for (let i = start; i <= props.list.length - 1; i += 1) {
-          // 1. 到底了
-          if (i >= props.list.length - views) {
-            start = i;
-            break;
-          }
           // 2. 变化了
           const currentSize = getItemSize(props.list[i]?.[itemKey]);
+          // console.log('currentSize', i, props.list[i]?.[itemKey], currentSize);
+
           if (
             offsetReduce <= offsetWithNoHeader &&
             offsetWithNoHeader < offsetReduce + currentSize
@@ -468,10 +516,13 @@ const VirtualList = defineComponent({
           }
           offsetReduce += currentSize;
         }
+
+        // 向下滚动不需要修正
+        fixOffset = false;
       }
 
       // 节流
-      if (start === 0 || start !== reactiveData.inViewBegin) {
+      if (start !== reactiveData.inViewBegin) {
         updateRange(start);
       }
     }
@@ -544,14 +595,10 @@ const VirtualList = defineComponent({
 
       reactiveData.renderBegin = 0;
       reactiveData.renderEnd = 0;
-
-      // fix bug: 滚动到顶部后，修改list会导致不应出现的修正误差操作
-      direction = 'backward';
-
       sizesMap.clear();
     }
     // expose only
-    function decreaseTopSize(prevList: []) {
+    function decreaseTopSize(prevList: any[]) {
       calcListTotalSize();
       let prevListSize = 0;
       prevList.forEach((item) => {
@@ -565,7 +612,7 @@ const VirtualList = defineComponent({
       calcRange();
     }
     // expose only
-    function increaseTopSize(prevList: []) {
+    function increaseTopSize(prevList: any[]) {
       calcListTotalSize();
 
       let prevListSize = 0;
@@ -614,16 +661,20 @@ const VirtualList = defineComponent({
             } else if (oldSize !== newSize) {
               setItemSize(id, newSize);
               diff += newSize - oldSize;
+              context.emit('itemResize', id, newSize);
             }
           }
         }
         reactiveData.listTotalSize += diff;
-        // 向上滚动纠正误差
-        if (!setScrollFlag && direction === 'forward' && diff !== 0) {
+        // console.log(fixOffset, forceFixOffset, diff);
+        // 向上滚动纠正误差 - 当没有顶部buffer的时候是需要的
+        if ((fixOffset || forceFixOffset) && diff !== 0) {
+          fixOffset = false;
+          forceFixOffset = false;
           scrollToOffset(reactiveData.offset + diff);
+          // console.log('纠正误差', reactiveData.offset, diff);
         }
       });
-      // });
     }
 
     onBeforeMount(() => {
@@ -741,7 +792,7 @@ const VirtualList = defineComponent({
         // [require] 因为list长度变化，所以总高度有变化
         calcListTotalSize();
         // [require] 因为list长度变化，所以重新计算起始结束位置
-        calcRange();
+        updateRange(reactiveData.inViewBegin);
         // [require] 起始位置可能不变，但列表元素发生变化，所以强制渲染一次
         forceUpdate();
       },
@@ -784,6 +835,9 @@ const VirtualList = defineComponent({
     const {
       horizontal,
       listStyle,
+      listClass,
+      itemStyle,
+      itemClass,
       headerClass,
       headerStyle,
       footerClass,
@@ -793,10 +847,9 @@ const VirtualList = defineComponent({
       stickyFooterClass,
       stickyFooterStyle,
     } = this.props;
-    const { header, footer, stickyHeader, stickyFooter } = this.$slots;
 
     const renderStickyHeaderSlot = (): any => {
-      return stickyHeader
+      return this.$slots.stickyHeader
         ? h(
             ObserverItem,
             polyfillAttr(
@@ -810,15 +863,18 @@ const VirtualList = defineComponent({
               {
                 id: 'stickyHeader',
                 resizeObserver: resizeObserver,
+                unmount: () => {
+                  this.slotSize.stickyHeaderSize = 0;
+                },
               },
             ),
-            [polyfillSlot(stickyHeader)],
+            [polyfillSlot(this.$slots.stickyHeader)],
           )
         : null;
     };
 
     const renderStickyFooterSlot = () => {
-      return stickyFooter
+      return this.$slots.stickyFooter
         ? h(
             ObserverItem,
             polyfillAttr(
@@ -832,31 +888,41 @@ const VirtualList = defineComponent({
               {
                 id: 'stickyFooter',
                 resizeObserver: resizeObserver,
+                unmount: () => {
+                  this.slotSize.stickyFooterSize = 0;
+                },
               },
             ),
-            [polyfillSlot(stickyFooter)],
+            [polyfillSlot(this.$slots.stickyFooter)],
           )
         : null;
     };
 
     const renderHeaderSlot = () => {
-      return header
+      return this.$slots.header
         ? h(
             ObserverItem,
             polyfillAttr(
-              { key: 'slot-header', class: headerClass, style: headerStyle },
+              {
+                key: 'slot-header',
+                class: headerClass,
+                style: headerStyle,
+              },
               {
                 id: 'header',
                 resizeObserver: resizeObserver,
+                unmount: () => {
+                  this.slotSize.headerSize = 0;
+                },
               },
             ),
-            [polyfillSlot(header)],
+            [polyfillSlot(this.$slots.header)],
           )
         : null;
     };
 
     const renderFooterSlot = () => {
-      return footer
+      return this.$slots.footer
         ? h(
             ObserverItem,
             polyfillAttr(
@@ -868,9 +934,12 @@ const VirtualList = defineComponent({
               {
                 id: 'footer',
                 resizeObserver: resizeObserver,
+                unmount: () => {
+                  this.slotSize.footerSize = 0;
+                },
               },
             ),
-            [polyfillSlot(footer)],
+            [polyfillSlot(this.$slots.footer)],
           )
         : null;
     };
@@ -887,6 +956,8 @@ const VirtualList = defineComponent({
             polyfillAttr(
               {
                 key: currentItem[itemKey],
+                class: itemClass,
+                style: itemStyle,
               },
               {
                 id: currentItem[itemKey],
@@ -912,6 +983,7 @@ const VirtualList = defineComponent({
         'div',
         {
           ref: 'listRefEl',
+          class: listClass,
           style: dynamicListStyle,
         },
         [
@@ -940,6 +1012,9 @@ const VirtualList = defineComponent({
         {
           id: 'client',
           resizeObserver: resizeObserver,
+          unmount: () => {
+            this.slotSize.clientSize = 0;
+          },
         },
       ),
       polyfillChildren([

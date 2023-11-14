@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       list: getList(200),
-      virtualListRef: {},
 
       reactiveData: {
         renderBegin: 0,
@@ -45,9 +44,7 @@ export default {
     };
   },
   mounted() {
-    this.reactiveData = (
-      this.$refs.virtualListRef as InstanceType<typeof VirtualList>
-    ).reactiveData;
+    this.reactiveData = (this.$refs.virtualListRef as any).reactiveData;
   },
 };
 </script>
@@ -68,6 +65,7 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
+    padding: 4px;
   }
 }
 </style>

@@ -24,7 +24,7 @@ export async function asyncGetList(
       newList.push({
         index: start + i,
         id: faker.string.nanoid(),
-        text: faker.lorem.sentences(),
+        text: faker.lorem.paragraph(),
       });
     }
     setTimeout(() => {

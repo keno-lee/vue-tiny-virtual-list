@@ -128,6 +128,7 @@ function deleteItem(id: number) {
     box-sizing: border-box;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
+    padding: 4px;
   }
 }
 </style>

@@ -6,7 +6,7 @@
   <a href="https://www.npmjs.com/package/vue-tiny-virtual-list"><img src="https://img.shields.io/npm/l/vue-tiny-virtual-list.svg?sanitize=true" alt="License"></a>
 </p>
 
-<a href="./README_cn.md" target="_blank">中文文档</a>
+<a href="./README.md" target="_blank">EN</a> | <a href="./README_cn.md" target="_blank">中文</a>
 
 👉 <a href="https://d8diegi800.feishu.cn/wiki/MX2Vwn1RWiwUsokjhshcr6sVnNb?from=from_copylink" target="_blank">Advantages</a>
 
