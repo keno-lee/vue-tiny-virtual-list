@@ -22,7 +22,7 @@
 - Supports smooth scrolling upwards
 - Scroll without losing selection
 - O(1) complexity rolling increment calculation
-- Supports a variety of slots to choose from, and supports expansion in various scenarios (tables, wireless loading, chat rooms, merged cells, etc.)
+- Supports a variety of slots to choose from, and supports expansion in various scenarios (table, infinity loading, chat room, merged cells, etc.)
 
 ## Start
 

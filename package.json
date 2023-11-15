@@ -1,7 +1,7 @@
 {
   "name": "vue-tiny-virtual-list",
   "version": "1.3.0",
-  "description": "Virtual render list & Huge amount data & High performance (support vue2.x&vue3.x)",
+  "description": "Tiny(3kb) & Virtual scroll list & Huge amount data & High performance (support vue2.x&vue3.x)",
   "author": "keno-lee",
   "license": "MIT",
   "main": "lib/index.js",
