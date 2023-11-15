@@ -3,6 +3,7 @@
     <Operate
       :virtualListRef="$refs.virtualListRef"
       :length="list.length"
+      :visible.sync="visible"
     ></Operate>
 
     <div style="padding: 10px 0">
@@ -11,7 +12,7 @@
       <span>RenderEnd: {{ reactiveData.renderEnd }} </span>
     </div>
 
-    <div class="demo-horizontal">
+    <div class="demo-horizontal" v-show="visible">
       <VirtualList
         :list="list"
         ref="virtualListRef"
@@ -43,6 +44,7 @@ export default {
   },
   data() {
     return {
+      visible: true,
       list: getHorizontalList(1000),
 
       reactiveData: {

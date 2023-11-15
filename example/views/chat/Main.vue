@@ -51,7 +51,7 @@ import Item from './Item.vue';
 import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
-  name: 'DemoInfinity',
+  name: 'DemoChat',
   components: {
     Item,
     VirtualList,

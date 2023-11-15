@@ -400,13 +400,27 @@ const VirtualList = defineComponent({
     // expose 滚动到顶部，这个和去第一个元素不同
     async function scrollToTop() {
       scrollToOffset(0);
+
+      setTimeout(() => {
+        const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
+        // 因为纠正滚动条会有误差，所以这里需要再次纠正
+        if (clientRef.value && clientRef.value.$el[directionKey] !== 0) {
+          scrollToTop();
+        }
+      }, 3);
     }
     // expose 滚动到底部
     async function scrollToBottom() {
       scrollToOffset(getTotalSize());
 
       setTimeout(() => {
-        if (reactiveData.offset + slotSize.clientSize < getTotalSize()) {
+        // 修复底部误差，因为缩放屏幕的时候，获取的尺寸都是小数，精度会有问题，这里把误差调整为2px
+        if (
+          Math.abs(
+            Math.round(reactiveData.offset + slotSize.clientSize) -
+              Math.round(getTotalSize()),
+          ) > 2
+        ) {
           scrollToBottom();
         }
       }, 0);

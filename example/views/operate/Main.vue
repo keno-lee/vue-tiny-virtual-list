@@ -35,7 +35,7 @@ import Item from './Item.vue';
 import Operate from '@/example/components/OperateGroup.vue';
 
 export default {
-  name: 'DemoFixed',
+  name: 'DemoOperate',
   components: {
     Item,
     VirtualList,

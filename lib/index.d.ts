@@ -1,4 +1,16 @@
 import { type ShallowRef } from 'vue-demi';
+type ReactiveData = {
+    views: number;
+    offset: number;
+    listTotalSize: number;
+    virtualSize: number;
+    inViewBegin: number;
+    inViewEnd: number;
+    renderBegin: number;
+    renderEnd: number;
+    bufferTop: number;
+    bufferBottom: number;
+};
 declare const VirtualList: import("vue-demi").DefineComponent<{
     list: {
         type: {
@@ -62,6 +74,18 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    listClass: {
+        type: StringConstructor;
+        default: string;
+    };
+    itemStyle: {
+        type: StringConstructor;
+        default: string;
+    };
+    itemClass: {
+        type: StringConstructor;
+        default: string;
+    };
     headerClass: {
         type: StringConstructor;
         default: string;
@@ -108,6 +132,9 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         bufferTop: number;
         bufferBottom: number;
         scrollDistance: number;
+        listClass: string;
+        itemStyle: string;
+        itemClass: string;
         headerClass: string;
         headerStyle: string;
         footerClass: string;
@@ -130,6 +157,10 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
             type: (StringConstructor | NumberConstructor)[];
             require: boolean;
         };
+        unmount: {
+            type: FunctionConstructor;
+            default: any;
+        };
     }, {
         itemRefEl: any;
     }, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
@@ -144,31 +175,26 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
             type: (StringConstructor | NumberConstructor)[];
             require: boolean;
         };
-    }>>, {}>>;
+        unmount: {
+            type: FunctionConstructor;
+            default: any;
+        };
+    }>>, {
+        unmount: Function;
+    }>>;
     listRefEl: import("vue-demi").Ref<HTMLElement>;
-    reactiveData: {
-        views: number;
-        offset: number;
-        listTotalSize: number;
-        virtualSize: number;
-        inViewBegin: number;
-        inViewEnd: number;
-        renderBegin: number;
-        renderEnd: number;
-        bufferTop: number;
-        bufferBottom: number;
-    };
+    reactiveData: ReactiveData;
     getOffset: () => any;
     reset: () => void;
     scrollToIndex: (index: number) => Promise<void>;
     scrollIntoView: (index: number) => Promise<void>;
     scrollToTop: () => Promise<void>;
     scrollToBottom: () => Promise<void>;
-    scrollToOffset: (offset: number) => void;
+    scrollToOffset: (offset: number, needForceFixOffset?: boolean) => void;
     getItemSize: (itemKey: string) => any;
     deleteItemSize: (itemKey: string) => void;
-    decreaseTopSize: (prevList: []) => void;
-    increaseTopSize: (prevList: []) => void;
+    decreaseTopSize: (prevList: any[]) => void;
+    increaseTopSize: (prevList: any[]) => void;
     getItemPosByIndex: (index: number) => {
         top: number;
         current: any;
@@ -247,6 +273,18 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    listClass: {
+        type: StringConstructor;
+        default: string;
+    };
+    itemStyle: {
+        type: StringConstructor;
+        default: string;
+    };
+    itemClass: {
+        type: StringConstructor;
+        default: string;
+    };
     headerClass: {
         type: StringConstructor;
         default: string;
@@ -291,6 +329,9 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
     bufferTop: number;
     bufferBottom: number;
     scrollDistance: number;
+    listClass: string;
+    itemStyle: string;
+    itemClass: string;
     headerClass: string;
     headerStyle: string;
     footerClass: string;
