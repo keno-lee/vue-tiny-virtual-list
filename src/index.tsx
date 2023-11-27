@@ -77,10 +77,6 @@ const ObserverItem = defineComponent({
       type: [String, Number],
       require: true,
     },
-    unmount: {
-      type: Function,
-      default: undefined,
-    },
   },
   setup(props) {
     const itemRefEl = ref(null);
@@ -94,9 +90,6 @@ const ObserverItem = defineComponent({
     onBeforeUnmount(() => {
       if (props.resizeObserver && itemRefEl.value) {
         props.resizeObserver.unobserve(itemRefEl.value);
-      }
-      if (props.unmount) {
-        props.unmount();
       }
     });
 
@@ -223,8 +216,13 @@ const VirtualList = defineComponent({
     },
   },
   setup(props, context) {
-    const clientRef = ref<typeof ObserverItem | null>(null);
+    const clientRefEl = ref<HTMLElement | null>(null);
     const listRefEl = ref<HTMLElement | null>(null);
+    const headerRefEl = ref<HTMLElement | null>(null);
+    const footerRefEl = ref<HTMLElement | null>(null);
+    const stickyHeaderRefEl = ref<HTMLElement | null>(null);
+    const stickyFooterRefEl = ref<HTMLElement | null>(null);
+
     const sizesMap = new Map();
     const renderKey = ref(new Date().getTime());
     let direction: 'forward' | 'backward' = 'backward';
@@ -266,7 +264,7 @@ const VirtualList = defineComponent({
 
     function getOffset() {
       const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
-      return clientRef.value?.$el ? clientRef.value.$el[directionKey] : 0;
+      return clientRefEl.value ? clientRefEl.value[directionKey] : 0;
     }
     function getSlotSize() {
       return (
@@ -324,7 +322,7 @@ const VirtualList = defineComponent({
         forceFixOffset = true;
       }
       const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
-      if (clientRef.value?.$el) clientRef.value.$el[directionKey] = offset;
+      if (clientRefEl.value) clientRefEl.value[directionKey] = offset;
     }
     // expose 滚动到指定下标
     async function scrollToIndex(index: number) {
@@ -404,7 +402,7 @@ const VirtualList = defineComponent({
       setTimeout(() => {
         const directionKey = props.horizontal ? 'scrollLeft' : 'scrollTop';
         // 因为纠正滚动条会有误差，所以这里需要再次纠正
-        if (clientRef.value && clientRef.value.$el[directionKey] !== 0) {
+        if (clientRefEl?.value?.[directionKey] !== 0) {
           scrollToTop();
         }
       }, 3);
@@ -706,8 +704,23 @@ const VirtualList = defineComponent({
     });
 
     onMounted(() => {
-      if (clientRef.value) {
-        clientRef.value.$el.addEventListener('scroll', onScroll);
+      if (clientRefEl.value) {
+        clientRefEl.value.addEventListener('scroll', onScroll);
+
+        resizeObserver?.observe(clientRefEl.value);
+      }
+
+      if (stickyHeaderRefEl.value) {
+        resizeObserver?.observe(stickyHeaderRefEl.value);
+      }
+      if (stickyFooterRefEl.value) {
+        resizeObserver?.observe(stickyFooterRefEl.value);
+      }
+      if (headerRefEl.value) {
+        resizeObserver?.observe(headerRefEl.value);
+      }
+      if (footerRefEl.value) {
+        resizeObserver?.observe(footerRefEl.value);
       }
 
       if (props.start) {
@@ -718,8 +731,28 @@ const VirtualList = defineComponent({
     });
 
     onBeforeUnmount(() => {
-      if (clientRef.value) {
-        clientRef.value.$el.removeEventListener('scroll', onScroll);
+      if (clientRefEl.value) {
+        clientRefEl.value.removeEventListener('scroll', onScroll);
+
+        resizeObserver?.unobserve(clientRefEl.value);
+        slotSize.clientSize = 0;
+      }
+
+      if (stickyHeaderRefEl.value) {
+        resizeObserver?.unobserve(stickyHeaderRefEl.value);
+        slotSize.stickyHeaderSize = 0;
+      }
+      if (stickyFooterRefEl.value) {
+        resizeObserver?.unobserve(stickyFooterRefEl.value);
+        slotSize.stickyFooterSize = 0;
+      }
+      if (headerRefEl.value) {
+        resizeObserver?.unobserve(headerRefEl.value);
+        slotSize.headerSize = 0;
+      }
+      if (footerRefEl.value) {
+        resizeObserver?.unobserve(footerRefEl.value);
+        slotSize.footerSize = 0;
       }
     });
 
@@ -820,8 +853,13 @@ const VirtualList = defineComponent({
 
       filterList,
 
-      clientRef,
+      clientRefEl,
       listRefEl,
+      headerRefEl,
+      footerRefEl,
+      stickyHeaderRefEl,
+      stickyFooterRefEl,
+
       reactiveData,
 
       getOffset,
@@ -865,7 +903,7 @@ const VirtualList = defineComponent({
     const renderStickyHeaderSlot = (): any => {
       return this.$slots.stickyHeader
         ? h(
-            ObserverItem,
+            'div',
             polyfillAttr(
               {
                 key: 'slot-sticky-header',
@@ -873,13 +911,10 @@ const VirtualList = defineComponent({
                 style: `position: sticky; z-index: 10; ${
                   horizontal ? 'left: 0' : 'top: 0;'
                 } ${stickyHeaderStyle}`,
+                ref: 'stickyHeaderRefEl',
               },
               {
-                id: 'stickyHeader',
-                resizeObserver: resizeObserver,
-                unmount: () => {
-                  this.slotSize.stickyHeaderSize = 0;
-                },
+                'data-id': 'stickyHeader',
               },
             ),
             [polyfillSlot(this.$slots.stickyHeader)],
@@ -890,7 +925,7 @@ const VirtualList = defineComponent({
     const renderStickyFooterSlot = () => {
       return this.$slots.stickyFooter
         ? h(
-            ObserverItem,
+            'div',
             polyfillAttr(
               {
                 key: 'slot-sticky-footer',
@@ -898,13 +933,10 @@ const VirtualList = defineComponent({
                 style: `position: sticky; z-index: 10; ${
                   horizontal ? 'right: 0' : 'bottom: 0;'
                 } ${stickyFooterStyle}`,
+                ref: 'stickyFooterRefEl',
               },
               {
-                id: 'stickyFooter',
-                resizeObserver: resizeObserver,
-                unmount: () => {
-                  this.slotSize.stickyFooterSize = 0;
-                },
+                'data-id': 'stickyFooter',
               },
             ),
             [polyfillSlot(this.$slots.stickyFooter)],
@@ -915,19 +947,16 @@ const VirtualList = defineComponent({
     const renderHeaderSlot = () => {
       return this.$slots.header
         ? h(
-            ObserverItem,
+            'div',
             polyfillAttr(
               {
                 key: 'slot-header',
                 class: headerClass,
                 style: headerStyle,
+                ref: 'headerRefEl',
               },
               {
-                id: 'header',
-                resizeObserver: resizeObserver,
-                unmount: () => {
-                  this.slotSize.headerSize = 0;
-                },
+                'data-id': 'header',
               },
             ),
             [polyfillSlot(this.$slots.header)],
@@ -938,19 +967,16 @@ const VirtualList = defineComponent({
     const renderFooterSlot = () => {
       return this.$slots.footer
         ? h(
-            ObserverItem,
+            'div',
             polyfillAttr(
               {
                 key: 'slot-footer',
                 class: footerClass,
                 style: footerStyle,
+                ref: 'footerRefEl',
               },
               {
-                id: 'footer',
-                resizeObserver: resizeObserver,
-                unmount: () => {
-                  this.slotSize.footerSize = 0;
-                },
+                'data-id': 'footer',
               },
             ),
             [polyfillSlot(this.$slots.footer)],
@@ -1016,19 +1042,15 @@ const VirtualList = defineComponent({
     // };
 
     return h(
-      ObserverItem,
+      'div',
       polyfillAttr(
         {
           class: 'virtual-list__client',
           style: `width: 100%; height: 100%; overflow: overlay;`,
-          ref: 'clientRef',
+          ref: 'clientRefEl',
         },
         {
-          id: 'client',
-          resizeObserver: resizeObserver,
-          unmount: () => {
-            this.slotSize.clientSize = 0;
-          },
+          'data-id': 'client',
         },
       ),
       polyfillChildren([
