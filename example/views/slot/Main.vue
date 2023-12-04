@@ -8,12 +8,11 @@
 
     <div class="demo-slot" v-show="visible">
       <VirtualList
-        test="test"
-        :buffer="2"
+        ref="virtualListRef"
         :minSize="40"
         :list="list"
-        ref="virtualListRef"
         itemKey="id"
+        :buffer="2"
         stickyHeaderStyle="text-align: center; height: 40px; background: #42b983;"
         headerStyle="text-align: center; height: 80px; background: cyan"
         footerStyle="text-align: center; height: 80px; background: cyan"
@@ -60,12 +59,9 @@ export default {
   },
   async mounted() {
     // this.list = await getRows(1, 200000);
+    console.log(111, this.$refs.virtualListRef);
   },
-  methods: {
-    onTest() {
-      console.log('test');
-    },
-  },
+  methods: {},
 };
 </script>
 
