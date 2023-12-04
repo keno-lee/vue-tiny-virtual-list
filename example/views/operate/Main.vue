@@ -14,14 +14,14 @@
 
     <div class="demo-operate" style="resize: auto" v-show="visible">
       <VirtualList
+        ref="virtualListRef"
         :buffer="2"
         :list="list"
-        ref="virtualListRef"
         itemKey="id"
         :minSize="40"
       >
-        <template #default="{ itemData }">
-          <Item :itemData="itemData" />
+        <template #default="{ itemData, index }">
+          <Item :itemData="itemData" :index="index" />
         </template>
       </VirtualList>
     </div>

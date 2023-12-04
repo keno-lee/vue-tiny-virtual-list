@@ -67,6 +67,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "chat" */ '../views/chat/Main.vue'),
   },
+  {
+    path: '/advanced',
+    name: 'advanced',
+    component: () =>
+      import(/* webpackChunkName: "chat" */ '../views/advanced/Main.vue'),
+  },
 ];
 
 const router = new VueRouter({
