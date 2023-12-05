@@ -1,3 +1,4 @@
+.github
 .vscode
 docs
 example
@@ -7,4 +8,8 @@ scripts/
 .eslintrc.cjs
 .gitignore
 .prettierrc.js
+tsconfig.app.json
+tsconfig.build.json
 tsconfig.json
+tsconfig.node.json
+tsconfig.vitest.json

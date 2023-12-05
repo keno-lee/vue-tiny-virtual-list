@@ -230,7 +230,7 @@ type VirtualListReturn<T extends Record<string, string>> = {
 
 function useVirtualList<T extends Record<string, any>>(
   userProps: VirtualListProps<T>,
-  emitFunction: EmitFunction<T>,
+  emitFunction?: EmitFunction<T>,
 ): VirtualListReturn<T> {
   const props = new Proxy(userProps, {
     get(target, key) {
@@ -563,7 +563,7 @@ function useVirtualList<T extends Record<string, any>>(
   function onScroll(evt: Event) {
     // console.log('onscroll');
 
-    emitFunction.scroll?.(evt);
+    emitFunction?.scroll?.(evt);
 
     const offset = getOffset();
 
@@ -579,7 +579,7 @@ function useVirtualList<T extends Record<string, any>>(
       reactiveData.offset - props.scrollDistance <= 0
     ) {
       console.log('[VirtualList] 到达顶部');
-      emitFunction.toTop?.(props.list[0]);
+      emitFunction?.toTop?.(props.list[0]);
     }
     // 到达底部 - 放在这里是为了渲染完成拿到真是高度了，再判断是否是真的到达底部
     if (
@@ -588,7 +588,7 @@ function useVirtualList<T extends Record<string, any>>(
         reactiveData.listTotalSize + getSlotSize() - slotSize.clientSize
     ) {
       console.log('[VirtualList] 到达底部');
-      emitFunction.toBottom?.(props.list[props.list.length - 1]);
+      emitFunction?.toBottom?.(props.list[props.list.length - 1]);
     }
   }
 
@@ -697,7 +697,7 @@ function useVirtualList<T extends Record<string, any>>(
           } else if (oldSize !== newSize) {
             setItemSize(id, newSize);
             diff += newSize - oldSize;
-            emitFunction.itemResize?.(id, newSize);
+            emitFunction?.itemResize?.(id, newSize);
           }
         }
       }
