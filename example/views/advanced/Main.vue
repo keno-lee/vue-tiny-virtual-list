@@ -21,7 +21,7 @@
       传入3个基本的参数，返回dom的结构，自定义布局页面，下面给出合并单元格的`&lt;table>&lt;/table>`布局示例:
     </div>
     <div>
-      这里只是简单的合并单元格表格示例，又需要的可以作为参考，并自己做好性能处理。后续计划中会在一个高性能的独立表格组件提供出来
+      这里只是简单的合并单元格表格示例，有需要的可以作为参考，并自己做好性能处理。后续计划中会在一个高性能的独立表格组件提供出来
     </div>
 
     <div style="padding: 10px 0">
@@ -165,7 +165,7 @@ const {
   clientRefEl,
   stickyHeaderRefEl,
 } = useVirtualList(
-  { list: list, minSize: 32, itemKey: 'id', controlRender },
+  { list: list, minSize: 100, itemKey: 'id', controlRender },
   emitFunction,
 );
 console.log('reactiveData', reactiveData);

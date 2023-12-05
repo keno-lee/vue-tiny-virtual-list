@@ -121,8 +121,8 @@ type ReactiveData = {
   bufferBottom: number;
 };
 
-type VirtualListProps = {
-  list: any[];
+type VirtualListProps<T extends Record<string, string>> = {
+  list: T[];
   itemKey: string | number;
   minSize: number;
 
@@ -153,10 +153,10 @@ type VirtualListProps = {
   stickyFooterStyle?: string;
 };
 
-type EmitFunction = {
+type EmitFunction<T> = {
   scroll?: (e: Event) => void;
-  toTop?: (item: any) => void;
-  toBottom?: (item: any) => void;
+  toTop?: (item: T) => void;
+  toBottom?: (item: T) => void;
   itemResize?: (id: string, newSize: number) => void;
 };
 
@@ -191,10 +191,10 @@ type SlotSize = {
   stickyFooterSize: number;
 };
 
-type userVirtualListReturn = {
-  props: Required<VirtualListProps>;
+type VirtualListReturn<T extends Record<string, string>> = {
+  props: Required<VirtualListProps<T>>;
 
-  renderList: Ref<any[]>;
+  renderList: Ref<T[]>;
   clientRefEl: Ref<HTMLElement | null>;
   listRefEl: Ref<HTMLElement | null>;
   headerRefEl: Ref<HTMLElement | null>;
@@ -214,12 +214,12 @@ type userVirtualListReturn = {
   getItemSize: (itemKey: string) => number;
   deleteItemSize: (itemKey: string) => void;
   // expose only
-  decreaseTopSize: (preList: any[]) => void;
-  increaseTopSize: (preList: any[]) => void;
+  decreaseTopSize: (preList: T[]) => void;
+  increaseTopSize: (preList: T[]) => void;
   getItemPosByIndex: (index: number) => {
     top: number;
-    current: any;
-    bottom: any;
+    current: number;
+    bottom: number;
   };
   forceUpdate: () => void;
   resizeObserver: ResizeObserver | undefined;
@@ -228,17 +228,15 @@ type userVirtualListReturn = {
   slotSize: SlotSize;
 };
 
-function useVirtualList(
-  userProps: VirtualListProps,
-  emitFunction: EmitFunction,
-): userVirtualListReturn {
+function useVirtualList<T extends Record<string, any>>(
+  userProps: VirtualListProps<T>,
+  emitFunction: EmitFunction<T>,
+): VirtualListReturn<T> {
   const props = new Proxy(userProps, {
     get(target, key) {
       return Reflect.get(target, key) ?? Reflect.get(defaultProps, key);
     },
-  }) as Required<VirtualListProps>;
-
-  // console.log('props', props.itemClass);
+  }) as Required<VirtualListProps<T>>;
 
   const clientRefEl = ref<HTMLElement | null>(null);
   const listRefEl = ref<HTMLElement | null>(null);
@@ -634,7 +632,7 @@ function useVirtualList(
     sizesMap.clear();
   }
   // expose only
-  function decreaseTopSize(prevList: any[]) {
+  function decreaseTopSize(prevList: T[]) {
     calcListTotalSize();
     let prevListSize = 0;
     prevList.forEach((item) => {
@@ -648,7 +646,7 @@ function useVirtualList(
     calcRange();
   }
   // expose only
-  function increaseTopSize(prevList: any[]) {
+  function increaseTopSize(prevList: T[]) {
     calcListTotalSize();
 
     let prevListSize = 0;
@@ -799,7 +797,7 @@ function useVirtualList(
     return re;
   }
 
-  const renderList: ShallowRef<any[]> = shallowRef([]);
+  const renderList: ShallowRef<T[]> = shallowRef([]);
   watch(
     // 这里为什么用 renderKey 代替监听 props.list
     // 因为props.list会导致v-for时deepArray导致大量的性能浪费
@@ -865,7 +863,6 @@ function useVirtualList(
   watch(
     () => props.list.length,
     () => {
-      console.log('props.list.length', props.list.length);
       // 如果数据为空，那么就重置
       if (props.list.length <= 0) {
         reset();
@@ -1026,7 +1023,7 @@ const VirtualList = defineComponent({
     },
   },
   setup(props: any, context: SetupContext) {
-    const emitFunction: EmitFunction = {
+    const emitFunction: EmitFunction<any> = {
       scroll: (evt: Event) => {
         context.emit('scroll', evt);
       },
@@ -1044,8 +1041,9 @@ const VirtualList = defineComponent({
     return useVirtualList(props, emitFunction);
   },
   render() {
-    const { renderList, itemKey, reactiveData, resizeObserver } = this;
+    const { renderList, reactiveData, resizeObserver } = this;
     const {
+      itemKey,
       horizontal,
       listStyle,
       listClass,
