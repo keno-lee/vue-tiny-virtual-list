@@ -5,8 +5,8 @@ on:
   # 选择在 push 到 github 时触发工作流
   push:
     tags:
-      - 'v\d+\.\d+\.\d+'
-      - 'v\d+\.\d+\.\d+-beta\.\d+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
 
 # 一个 workflow 可以有多个 job
 jobs:
