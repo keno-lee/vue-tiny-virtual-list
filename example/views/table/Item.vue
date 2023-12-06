@@ -11,7 +11,7 @@
         overflow: hidden;
       "
     >
-      {{ itemData.index }} - {{ itemData.id }}
+      {{ index }} - {{ itemData.id }}
     </div>
     <div class="table-cell" style="width: 600px">{{ itemData.text }}</div>
     <div
@@ -37,6 +37,10 @@ export default {
       default() {
         return {};
       },
+    },
+    index: {
+      type: Number,
+      default: 0,
     },
   },
 };

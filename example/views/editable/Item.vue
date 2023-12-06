@@ -8,7 +8,7 @@
     "
   >
     <div style="width: 200px; padding: 4px; overflow: hidden">
-      <div>{{ itemData.index }}</div>
+      <div>{{ index }}</div>
       <div>{{ itemData.id }}</div>
     </div>
     <div
@@ -37,6 +37,10 @@ export default {
       default() {
         return {};
       },
+    },
+    index: {
+      type: Number,
+      default: 0,
     },
   },
   mounted() {

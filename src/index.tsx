@@ -958,7 +958,7 @@ const VirtualList = defineComponent({
         : null;
     };
 
-    const { listTotalSize, virtualSize } = reactiveData;
+    const { listTotalSize, virtualSize, renderBegin } = reactiveData;
 
     const renderMainList = () => {
       const mainList = [];
@@ -980,9 +980,13 @@ const VirtualList = defineComponent({
             ),
             polyfillChildren([
               isVue2
-                ? this.$scopedSlots?.default?.({ itemData: currentItem })
+                ? this.$scopedSlots?.default?.({
+                    itemData: currentItem,
+                    index: renderBegin + index,
+                  })
                 : (this.$slots as any).default?.({
                     itemData: currentItem,
+                    index: renderBegin + index,
                   }),
             ]) as VNodeChildren,
           ),

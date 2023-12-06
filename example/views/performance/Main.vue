@@ -35,8 +35,8 @@
         itemKey="id"
         :minSize="44"
       >
-        <template #default="{ itemData }">
-          <Item :itemData="itemData" @deleteItem="deleteItem" />
+        <template #default="{ itemData, index }">
+          <Item :itemData="itemData" :index="index" @deleteItem="deleteItem" />
         </template>
       </VirtualList>
     </div>

@@ -9,7 +9,7 @@
     "
   >
     <div style="flex: 1">
-      {{ itemData.index }} - {{ itemData.id }} - {{ itemData.text }}
+      {{ index }} - {{ itemData.id }} - {{ itemData.text }}
     </div>
     <button style="height: 20px" @click="deleteItem(itemData.id)">删除</button>
   </div>
@@ -23,6 +23,10 @@ export default {
       default() {
         return {};
       },
+    },
+    index: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {

@@ -19,8 +19,8 @@
         footerStyle="text-align: center; height: 80px; background: cyan"
         stickyFooterStyle="text-align: center; height: 40px; background: #42b983;"
       >
-        <template #default="{ itemData }">
-          <Item :itemData="itemData" />
+        <template #default="{ itemData, index }">
+          <Item :itemData="itemData" :index="index" />
         </template>
         <template #stickyHeader>
           <div>悬浮header</div>

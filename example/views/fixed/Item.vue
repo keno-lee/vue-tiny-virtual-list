@@ -1,6 +1,6 @@
 <template>
   <div class="demo-cell" style="height: 40px">
-    {{ itemData.index }} - {{ itemData.id }}
+    {{ index }} - {{ itemData.id }}
   </div>
 </template>
 
@@ -12,6 +12,10 @@ export default {
       default() {
         return {};
       },
+    },
+    index: {
+      type: Number,
+      default: 0,
     },
   },
 };

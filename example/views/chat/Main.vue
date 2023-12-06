@@ -22,8 +22,8 @@
         @toTop="toTop"
         @itemResize="itemResize"
       >
-        <template #default="{ itemData }">
-          <Item :itemData="itemData" />
+        <template #default="{ itemData, index }">
+          <Item :itemData="itemData" :index="index" />
         </template>
         <template #header v-if="page > 1">
           <div

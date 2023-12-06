@@ -18,8 +18,8 @@
 
     <div class="demo-table">
       <VirtualList ref="virtualListRef" :list="list" :minSize="40" itemKey="id">
-        <template #default="{ itemData }">
-          <Item :itemData="itemData" />
+        <template #default="{ itemData, index }">
+          <Item :itemData="itemData" :index="index" />
         </template>
         <template #stickyHeader>
           <div class="header">

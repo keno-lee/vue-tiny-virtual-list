@@ -17,6 +17,10 @@ export default {
         return {};
       },
     },
+    index: {
+      type: Number,
+      default: 0,
+    },
   },
 };
 </script>

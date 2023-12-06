@@ -34,8 +34,8 @@ npm install vue-tiny-virtual-list -S
 <template>
   <div style="width: 500px; height: 400px">
     <VirtualList itemKey="id" :list="list" :minSize="20">
-      <template #default="{ itemData }">
-        <div>{{ itemData.id }} - {{ itemData.text }}</div>
+      <template #default="{ itemData, index }">
+        <div>{{ index }} - {{ itemData.id }} - {{ itemData.text }}</div>
       </template>
     </VirtualList>
   </div>
@@ -69,9 +69,10 @@ npm install vue-tiny-virtual-list -S
 
 ### Slot
 
-| name          | 说明         |
-| ------------- | ------------ |
-| header        | 顶部插槽     |
-| footer        | 底部插槽     |
-| sticky-header | 顶部悬浮插槽 |
-| sticky-footer | 底部悬浮插槽 |
+| name          | 说明                                         |
+| ------------- | -------------------------------------------- |
+| header        | 顶部插槽                                     |
+| footer        | 底部插槽                                     |
+| sticky-header | 顶部悬浮插槽                                 |
+| sticky-footer | 底部悬浮插槽                                 |
+| default       | item 内容， 作用域参数为 { itemData, index } |
