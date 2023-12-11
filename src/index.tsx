@@ -126,7 +126,7 @@ type VirtualListProps<T extends Record<string, string>> = {
   itemKey: string | number;
   minSize: number;
 
-  controlRender?: (
+  renderControl?: (
     begin: number,
     end: number,
   ) => { begin: number; end: number };
@@ -817,8 +817,8 @@ function useVirtualList<T extends Record<string, any>>(
         let _newRenderEnd = reactiveData.inViewEnd;
 
         // 控制层渲染
-        if (props?.controlRender) {
-          const { begin, end } = props.controlRender(
+        if (props?.renderControl) {
+          const { begin, end } = props.renderControl(
             _newInViewBegin,
             reactiveData.inViewEnd,
           );
@@ -934,7 +934,7 @@ const VirtualList = defineComponent({
       default: 20,
       required: true,
     },
-    controlRender: {
+    renderControl: {
       type: Function,
       default: undefined,
     },

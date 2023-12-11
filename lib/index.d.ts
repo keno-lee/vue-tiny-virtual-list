@@ -1,346 +1,395 @@
 import { type Ref } from 'vue-demi';
 type ObserverItemProps = {
-    resizeObserver: ResizeObserver;
+  resizeObserver: ResizeObserver;
 };
 declare function useObserverItem(props: ObserverItemProps): {
-    itemRefEl: any;
+  itemRefEl: any;
 };
-declare const ObserverItem: import("vue-demi").DefineComponent<{
+declare const ObserverItem: import('vue-demi').DefineComponent<
+  {
     resizeObserver: {
-        type: {
-            new (callback: ResizeObserverCallback): ResizeObserver;
-            prototype: ResizeObserver;
-        };
-        require: boolean;
+      type: {
+        new (callback: ResizeObserverCallback): ResizeObserver;
+        prototype: ResizeObserver;
+      };
+      require: boolean;
     };
     id: {
-        type: (StringConstructor | NumberConstructor)[];
-        require: boolean;
+      type: (StringConstructor | NumberConstructor)[];
+      require: boolean;
     };
-}, {
+  },
+  {
     itemRefEl: any;
-}, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
-    resizeObserver: {
+  },
+  {},
+  {},
+  {},
+  import('vue/types/v3-component-options').ComponentOptionsMixin,
+  import('vue/types/v3-component-options').ComponentOptionsMixin,
+  {},
+  string,
+  Readonly<
+    import('vue-demi').ExtractPropTypes<{
+      resizeObserver: {
         type: {
-            new (callback: ResizeObserverCallback): ResizeObserver;
-            prototype: ResizeObserver;
+          new (callback: ResizeObserverCallback): ResizeObserver;
+          prototype: ResizeObserver;
         };
         require: boolean;
-    };
-    id: {
+      };
+      id: {
         type: (StringConstructor | NumberConstructor)[];
         require: boolean;
-    };
-}>>, {}>;
+      };
+    }>
+  >,
+  {}
+>;
 type ReactiveData = {
-    views: number;
-    offset: number;
-    listTotalSize: number;
-    virtualSize: number;
-    inViewBegin: number;
-    inViewEnd: number;
-    renderBegin: number;
-    renderEnd: number;
-    bufferTop: number;
-    bufferBottom: number;
+  views: number;
+  offset: number;
+  listTotalSize: number;
+  virtualSize: number;
+  inViewBegin: number;
+  inViewEnd: number;
+  renderBegin: number;
+  renderEnd: number;
+  bufferTop: number;
+  bufferBottom: number;
 };
 type VirtualListProps<T extends Record<string, string>> = {
-    list: T[];
-    itemKey: string | number;
-    minSize: number;
-    controlRender?: (begin: number, end: number) => {
-        begin: number;
-        end: number;
-    };
-    fixed?: boolean;
-    buffer?: number;
-    bufferTop?: number;
-    bufferBottom?: number;
-    scrollDistance?: number;
-    horizontal?: boolean;
-    start?: number;
-    offset?: number;
-    listStyle?: string;
-    listClass?: string;
-    itemStyle?: string;
-    itemClass?: string;
-    headerClass?: string;
-    headerStyle?: string;
-    footerClass?: string;
-    footerStyle?: string;
-    stickyHeaderClass?: string;
-    stickyHeaderStyle?: string;
-    stickyFooterClass?: string;
-    stickyFooterStyle?: string;
+  list: T[];
+  itemKey: string | number;
+  minSize: number;
+  renderControl?: (
+    begin: number,
+    end: number,
+  ) => {
+    begin: number;
+    end: number;
+  };
+  fixed?: boolean;
+  buffer?: number;
+  bufferTop?: number;
+  bufferBottom?: number;
+  scrollDistance?: number;
+  horizontal?: boolean;
+  start?: number;
+  offset?: number;
+  listStyle?: string;
+  listClass?: string;
+  itemStyle?: string;
+  itemClass?: string;
+  headerClass?: string;
+  headerStyle?: string;
+  footerClass?: string;
+  footerStyle?: string;
+  stickyHeaderClass?: string;
+  stickyHeaderStyle?: string;
+  stickyFooterClass?: string;
+  stickyFooterStyle?: string;
 };
 type EmitFunction<T> = {
-    scroll?: (e: Event) => void;
-    toTop?: (item: T) => void;
-    toBottom?: (item: T) => void;
-    itemResize?: (id: string, newSize: number) => void;
+  scroll?: (e: Event) => void;
+  toTop?: (item: T) => void;
+  toBottom?: (item: T) => void;
+  itemResize?: (id: string, newSize: number) => void;
 };
 type SlotSize = {
-    clientSize: number;
-    headerSize: number;
-    footerSize: number;
-    stickyHeaderSize: number;
-    stickyFooterSize: number;
+  clientSize: number;
+  headerSize: number;
+  footerSize: number;
+  stickyHeaderSize: number;
+  stickyFooterSize: number;
 };
 type VirtualListReturn<T extends Record<string, string>> = {
-    props: Required<VirtualListProps<T>>;
-    renderList: Ref<T[]>;
-    clientRefEl: Ref<HTMLElement | null>;
-    listRefEl: Ref<HTMLElement | null>;
-    headerRefEl: Ref<HTMLElement | null>;
-    footerRefEl: Ref<HTMLElement | null>;
-    stickyHeaderRefEl: Ref<HTMLElement | null>;
-    stickyFooterRefEl: Ref<HTMLElement | null>;
-    reactiveData: ReactiveData;
-    getOffset: () => number;
-    reset: () => void;
-    scrollToIndex: (index: number) => void;
-    scrollIntoView: (index: number) => void;
-    scrollToTop: () => void;
-    scrollToBottom: () => void;
-    scrollToOffset: (offset: number) => void;
-    getItemSize: (itemKey: string) => number;
-    deleteItemSize: (itemKey: string) => void;
-    decreaseTopSize: (preList: T[]) => void;
-    increaseTopSize: (preList: T[]) => void;
-    getItemPosByIndex: (index: number) => {
-        top: number;
-        current: number;
-        bottom: number;
-    };
-    forceUpdate: () => void;
-    resizeObserver: ResizeObserver | undefined;
-    sizesMap: Map<string, number>;
-    slotSize: SlotSize;
+  props: Required<VirtualListProps<T>>;
+  renderList: Ref<T[]>;
+  clientRefEl: Ref<HTMLElement | null>;
+  listRefEl: Ref<HTMLElement | null>;
+  headerRefEl: Ref<HTMLElement | null>;
+  footerRefEl: Ref<HTMLElement | null>;
+  stickyHeaderRefEl: Ref<HTMLElement | null>;
+  stickyFooterRefEl: Ref<HTMLElement | null>;
+  reactiveData: ReactiveData;
+  getOffset: () => number;
+  reset: () => void;
+  scrollToIndex: (index: number) => void;
+  scrollIntoView: (index: number) => void;
+  scrollToTop: () => void;
+  scrollToBottom: () => void;
+  scrollToOffset: (offset: number) => void;
+  getItemSize: (itemKey: string) => number;
+  deleteItemSize: (itemKey: string) => void;
+  decreaseTopSize: (preList: T[]) => void;
+  increaseTopSize: (preList: T[]) => void;
+  getItemPosByIndex: (index: number) => {
+    top: number;
+    current: number;
+    bottom: number;
+  };
+  forceUpdate: () => void;
+  resizeObserver: ResizeObserver | undefined;
+  sizesMap: Map<string, number>;
+  slotSize: SlotSize;
 };
-declare function useVirtualList<T extends Record<string, any>>(userProps: VirtualListProps<T>, emitFunction?: EmitFunction<T>): VirtualListReturn<T>;
-declare const VirtualList: import("vue-demi").DefineComponent<{
+declare function useVirtualList<T extends Record<string, any>>(
+  userProps: VirtualListProps<T>,
+  emitFunction?: EmitFunction<T>,
+): VirtualListReturn<T>;
+declare const VirtualList: import('vue-demi').DefineComponent<
+  {
     list: {
-        type: {
-            (arrayLength: number): any[];
-            (...items: any[]): any[];
-            new (arrayLength: number): any[];
-            new (...items: any[]): any[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T_1, U>(arrayLike: ArrayLike<T_1>, mapfn: (v: T_1, k: number) => U, thisArg?: any): U[];
-            from<T_2>(iterable: Iterable<T_2> | ArrayLike<T_2>): T_2[];
-            from<T_3, U_1>(iterable: Iterable<T_3> | ArrayLike<T_3>, mapfn: (v: T_3, k: number) => U_1, thisArg?: any): U_1[];
-            of<T_4>(...items: T_4[]): T_4[];
-            readonly [Symbol.species]: ArrayConstructor;
-        };
-        default: () => any[];
+      type: {
+        (arrayLength: number): any[];
+        (...items: any[]): any[];
+        new (arrayLength: number): any[];
+        new (...items: any[]): any[];
+        isArray(arg: any): arg is any[];
+        readonly prototype: any[];
+        from<T>(arrayLike: ArrayLike<T>): T[];
+        from<T_1, U>(
+          arrayLike: ArrayLike<T_1>,
+          mapfn: (v: T_1, k: number) => U,
+          thisArg?: any,
+        ): U[];
+        from<T_2>(iterable: Iterable<T_2> | ArrayLike<T_2>): T_2[];
+        from<T_3, U_1>(
+          iterable: Iterable<T_3> | ArrayLike<T_3>,
+          mapfn: (v: T_3, k: number) => U_1,
+          thisArg?: any,
+        ): U_1[];
+        of<T_4>(...items: T_4[]): T_4[];
+        readonly [Symbol.species]: ArrayConstructor;
+      };
+      default: () => any[];
     };
     itemKey: {
-        type: (StringConstructor | NumberConstructor)[];
-        required: true;
+      type: (StringConstructor | NumberConstructor)[];
+      required: true;
     };
     minSize: {
-        type: NumberConstructor;
-        default: number;
-        required: true;
+      type: NumberConstructor;
+      default: number;
+      required: true;
     };
-    controlRender: {
-        type: FunctionConstructor;
-        default: any;
+    renderControl: {
+      type: FunctionConstructor;
+      default: any;
     };
     fixed: {
-        type: BooleanConstructor;
-        default: boolean;
+      type: BooleanConstructor;
+      default: boolean;
     };
     buffer: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     bufferTop: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     bufferBottom: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     scrollDistance: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     horizontal: {
-        type: BooleanConstructor;
-        default: boolean;
+      type: BooleanConstructor;
+      default: boolean;
     };
     start: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     offset: {
-        type: NumberConstructor;
-        default: number;
+      type: NumberConstructor;
+      default: number;
     };
     listStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     listClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     itemStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     itemClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     headerClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     headerStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     footerClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     footerStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     stickyHeaderClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     stickyHeaderStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     stickyFooterClass: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
     stickyFooterStyle: {
-        type: StringConstructor;
-        default: string;
+      type: StringConstructor;
+      default: string;
     };
-}, VirtualListReturn<any>, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
-    list: {
+  },
+  VirtualListReturn<any>,
+  {},
+  {},
+  {},
+  import('vue/types/v3-component-options').ComponentOptionsMixin,
+  import('vue/types/v3-component-options').ComponentOptionsMixin,
+  {},
+  string,
+  Readonly<
+    import('vue-demi').ExtractPropTypes<{
+      list: {
         type: {
-            (arrayLength: number): any[];
-            (...items: any[]): any[];
-            new (arrayLength: number): any[];
-            new (...items: any[]): any[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T_1, U>(arrayLike: ArrayLike<T_1>, mapfn: (v: T_1, k: number) => U, thisArg?: any): U[];
-            from<T_2>(iterable: Iterable<T_2> | ArrayLike<T_2>): T_2[];
-            from<T_3, U_1>(iterable: Iterable<T_3> | ArrayLike<T_3>, mapfn: (v: T_3, k: number) => U_1, thisArg?: any): U_1[];
-            of<T_4>(...items: T_4[]): T_4[];
-            readonly [Symbol.species]: ArrayConstructor;
+          (arrayLength: number): any[];
+          (...items: any[]): any[];
+          new (arrayLength: number): any[];
+          new (...items: any[]): any[];
+          isArray(arg: any): arg is any[];
+          readonly prototype: any[];
+          from<T>(arrayLike: ArrayLike<T>): T[];
+          from<T_1, U>(
+            arrayLike: ArrayLike<T_1>,
+            mapfn: (v: T_1, k: number) => U,
+            thisArg?: any,
+          ): U[];
+          from<T_2>(iterable: Iterable<T_2> | ArrayLike<T_2>): T_2[];
+          from<T_3, U_1>(
+            iterable: Iterable<T_3> | ArrayLike<T_3>,
+            mapfn: (v: T_3, k: number) => U_1,
+            thisArg?: any,
+          ): U_1[];
+          of<T_4>(...items: T_4[]): T_4[];
+          readonly [Symbol.species]: ArrayConstructor;
         };
         default: () => any[];
-    };
-    itemKey: {
+      };
+      itemKey: {
         type: (StringConstructor | NumberConstructor)[];
         required: true;
-    };
-    minSize: {
+      };
+      minSize: {
         type: NumberConstructor;
         default: number;
         required: true;
-    };
-    controlRender: {
+      };
+      renderControl: {
         type: FunctionConstructor;
         default: any;
-    };
-    fixed: {
+      };
+      fixed: {
         type: BooleanConstructor;
         default: boolean;
-    };
-    buffer: {
+      };
+      buffer: {
         type: NumberConstructor;
         default: number;
-    };
-    bufferTop: {
+      };
+      bufferTop: {
         type: NumberConstructor;
         default: number;
-    };
-    bufferBottom: {
+      };
+      bufferBottom: {
         type: NumberConstructor;
         default: number;
-    };
-    scrollDistance: {
+      };
+      scrollDistance: {
         type: NumberConstructor;
         default: number;
-    };
-    horizontal: {
+      };
+      horizontal: {
         type: BooleanConstructor;
         default: boolean;
-    };
-    start: {
+      };
+      start: {
         type: NumberConstructor;
         default: number;
-    };
-    offset: {
+      };
+      offset: {
         type: NumberConstructor;
         default: number;
-    };
-    listStyle: {
+      };
+      listStyle: {
         type: StringConstructor;
         default: string;
-    };
-    listClass: {
+      };
+      listClass: {
         type: StringConstructor;
         default: string;
-    };
-    itemStyle: {
+      };
+      itemStyle: {
         type: StringConstructor;
         default: string;
-    };
-    itemClass: {
+      };
+      itemClass: {
         type: StringConstructor;
         default: string;
-    };
-    headerClass: {
+      };
+      headerClass: {
         type: StringConstructor;
         default: string;
-    };
-    headerStyle: {
+      };
+      headerStyle: {
         type: StringConstructor;
         default: string;
-    };
-    footerClass: {
+      };
+      footerClass: {
         type: StringConstructor;
         default: string;
-    };
-    footerStyle: {
+      };
+      footerStyle: {
         type: StringConstructor;
         default: string;
-    };
-    stickyHeaderClass: {
+      };
+      stickyHeaderClass: {
         type: StringConstructor;
         default: string;
-    };
-    stickyHeaderStyle: {
+      };
+      stickyHeaderStyle: {
         type: StringConstructor;
         default: string;
-    };
-    stickyFooterClass: {
+      };
+      stickyFooterClass: {
         type: StringConstructor;
         default: string;
-    };
-    stickyFooterStyle: {
+      };
+      stickyFooterStyle: {
         type: StringConstructor;
         default: string;
-    };
-}>>, {
+      };
+    }>
+  >,
+  {
     fixed: boolean;
     buffer: number;
     offset: number;
@@ -349,7 +398,7 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
     horizontal: boolean;
     list: any[];
     minSize: number;
-    controlRender: Function;
+    renderControl: Function;
     bufferTop: number;
     bufferBottom: number;
     scrollDistance: number;
@@ -364,5 +413,6 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
     stickyHeaderStyle: string;
     stickyFooterClass: string;
     stickyFooterStyle: string;
-}>;
+  }
+>;
 export { VirtualList, ObserverItem, useVirtualList, useObserverItem };

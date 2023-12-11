@@ -14,7 +14,7 @@
         list: gridStore.source.list,
         minSize: 32,
         itemKey: 'id',
-        controlRender 
+        renderControl 
       }, context);
     </pre>
     <div>
@@ -124,8 +124,8 @@ for (let i = 0; i < 100; i += 1) {
   });
 }
 
-// 通过 controlRender 来完成合并单元格计算
-function controlRender(begin: number, end: number) {
+// 通过 渲染控制器(renderControl) 来完成合并单元格计算
+function renderControl(begin: number, end: number) {
   if (begin === 0 || begin === 1) {
     return {
       begin: 0,
@@ -165,7 +165,7 @@ const {
   clientRefEl,
   stickyHeaderRefEl,
 } = useVirtualList(
-  { list: list, minSize: 100, itemKey: 'id', controlRender },
+  { list: list, minSize: 100, itemKey: 'id', renderControl },
   emitFunction,
 );
 console.log('reactiveData', reactiveData);
