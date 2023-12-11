@@ -468,7 +468,7 @@ const VirtualList = defineComponent({
       reactiveData.inViewBegin = start;
       reactiveData.inViewEnd = Math.min(
         start + reactiveData.views,
-        props.list.length,
+        props.list.length - 1,
       );
     }
 
@@ -763,7 +763,7 @@ const VirtualList = defineComponent({
 
           const _newRenderEnd = Math.min(
             reactiveData.inViewEnd + reactiveData.bufferBottom,
-            props.list.length,
+            props.list.length - 1,
           );
 
           // update virtualSize, diff range size
@@ -785,7 +785,7 @@ const VirtualList = defineComponent({
           // 实际渲染的时候要用buffer的
           filterList.value = props.list.slice(
             reactiveData.renderBegin,
-            reactiveData.renderEnd,
+            reactiveData.renderEnd + 1,
           );
         }
       },
