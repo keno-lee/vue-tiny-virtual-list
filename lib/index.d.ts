@@ -1,4 +1,37 @@
-import { type ShallowRef } from 'vue-demi';
+import { type Ref } from 'vue-demi';
+type ObserverItemProps = {
+    resizeObserver: ResizeObserver;
+};
+declare function useObserverItem(props: ObserverItemProps): {
+    itemRefEl: any;
+};
+declare const ObserverItem: import("vue-demi").DefineComponent<{
+    resizeObserver: {
+        type: {
+            new (callback: ResizeObserverCallback): ResizeObserver;
+            prototype: ResizeObserver;
+        };
+        require: boolean;
+    };
+    id: {
+        type: (StringConstructor | NumberConstructor)[];
+        require: boolean;
+    };
+}, {
+    itemRefEl: any;
+}, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
+    resizeObserver: {
+        type: {
+            new (callback: ResizeObserverCallback): ResizeObserver;
+            prototype: ResizeObserver;
+        };
+        require: boolean;
+    };
+    id: {
+        type: (StringConstructor | NumberConstructor)[];
+        require: boolean;
+    };
+}>>, {}>;
 type ReactiveData = {
     views: number;
     offset: number;
@@ -11,6 +44,80 @@ type ReactiveData = {
     bufferTop: number;
     bufferBottom: number;
 };
+type VirtualListProps<T extends Record<string, string>> = {
+    list: T[];
+    itemKey: string | number;
+    minSize: number;
+    controlRender?: (begin: number, end: number) => {
+        begin: number;
+        end: number;
+    };
+    fixed?: boolean;
+    buffer?: number;
+    bufferTop?: number;
+    bufferBottom?: number;
+    scrollDistance?: number;
+    horizontal?: boolean;
+    start?: number;
+    offset?: number;
+    listStyle?: string;
+    listClass?: string;
+    itemStyle?: string;
+    itemClass?: string;
+    headerClass?: string;
+    headerStyle?: string;
+    footerClass?: string;
+    footerStyle?: string;
+    stickyHeaderClass?: string;
+    stickyHeaderStyle?: string;
+    stickyFooterClass?: string;
+    stickyFooterStyle?: string;
+};
+type EmitFunction<T> = {
+    scroll?: (e: Event) => void;
+    toTop?: (item: T) => void;
+    toBottom?: (item: T) => void;
+    itemResize?: (id: string, newSize: number) => void;
+};
+type SlotSize = {
+    clientSize: number;
+    headerSize: number;
+    footerSize: number;
+    stickyHeaderSize: number;
+    stickyFooterSize: number;
+};
+type VirtualListReturn<T extends Record<string, string>> = {
+    props: Required<VirtualListProps<T>>;
+    renderList: Ref<T[]>;
+    clientRefEl: Ref<HTMLElement | null>;
+    listRefEl: Ref<HTMLElement | null>;
+    headerRefEl: Ref<HTMLElement | null>;
+    footerRefEl: Ref<HTMLElement | null>;
+    stickyHeaderRefEl: Ref<HTMLElement | null>;
+    stickyFooterRefEl: Ref<HTMLElement | null>;
+    reactiveData: ReactiveData;
+    getOffset: () => number;
+    reset: () => void;
+    scrollToIndex: (index: number) => void;
+    scrollIntoView: (index: number) => void;
+    scrollToTop: () => void;
+    scrollToBottom: () => void;
+    scrollToOffset: (offset: number) => void;
+    getItemSize: (itemKey: string) => number;
+    deleteItemSize: (itemKey: string) => void;
+    decreaseTopSize: (preList: T[]) => void;
+    increaseTopSize: (preList: T[]) => void;
+    getItemPosByIndex: (index: number) => {
+        top: number;
+        current: number;
+        bottom: number;
+    };
+    forceUpdate: () => void;
+    resizeObserver: ResizeObserver | undefined;
+    sizesMap: Map<string, number>;
+    slotSize: SlotSize;
+};
+declare function useVirtualList<T extends Record<string, any>>(userProps: VirtualListProps<T>, emitFunction?: EmitFunction<T>): VirtualListReturn<T>;
 declare const VirtualList: import("vue-demi").DefineComponent<{
     list: {
         type: {
@@ -37,6 +144,10 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         type: NumberConstructor;
         default: number;
         required: true;
+    };
+    controlRender: {
+        type: FunctionConstructor;
+        default: any;
     };
     fixed: {
         type: BooleanConstructor;
@@ -118,99 +229,7 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-}, {
-    props: Readonly<Readonly<import("vue/types/common").LooseRequired<{
-        fixed: boolean;
-        buffer: number;
-        offset: number;
-        start: number;
-        listStyle: string;
-        horizontal: boolean;
-        list: any[];
-        itemKey: string | number;
-        minSize: number;
-        bufferTop: number;
-        bufferBottom: number;
-        scrollDistance: number;
-        listClass: string;
-        itemStyle: string;
-        itemClass: string;
-        headerClass: string;
-        headerStyle: string;
-        footerClass: string;
-        footerStyle: string;
-        stickyHeaderClass: string;
-        stickyHeaderStyle: string;
-        stickyFooterClass: string;
-        stickyFooterStyle: string;
-    } & {}>>>;
-    filterList: ShallowRef<any[]>;
-    clientRef: import("vue-demi").Ref<import("vue-demi").DefineComponent<{
-        resizeObserver: {
-            type: {
-                new (callback: ResizeObserverCallback): ResizeObserver;
-                prototype: ResizeObserver;
-            };
-            require: boolean;
-        };
-        id: {
-            type: (StringConstructor | NumberConstructor)[];
-            require: boolean;
-        };
-        unmount: {
-            type: FunctionConstructor;
-            default: any;
-        };
-    }, {
-        itemRefEl: any;
-    }, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
-        resizeObserver: {
-            type: {
-                new (callback: ResizeObserverCallback): ResizeObserver;
-                prototype: ResizeObserver;
-            };
-            require: boolean;
-        };
-        id: {
-            type: (StringConstructor | NumberConstructor)[];
-            require: boolean;
-        };
-        unmount: {
-            type: FunctionConstructor;
-            default: any;
-        };
-    }>>, {
-        unmount: Function;
-    }>>;
-    listRefEl: import("vue-demi").Ref<HTMLElement>;
-    reactiveData: ReactiveData;
-    getOffset: () => any;
-    reset: () => void;
-    scrollToIndex: (index: number) => Promise<void>;
-    scrollIntoView: (index: number) => Promise<void>;
-    scrollToTop: () => Promise<void>;
-    scrollToBottom: () => Promise<void>;
-    scrollToOffset: (offset: number, needForceFixOffset?: boolean) => void;
-    getItemSize: (itemKey: string) => any;
-    deleteItemSize: (itemKey: string) => void;
-    decreaseTopSize: (prevList: any[]) => void;
-    increaseTopSize: (prevList: any[]) => void;
-    getItemPosByIndex: (index: number) => {
-        top: number;
-        current: any;
-        bottom: any;
-    };
-    forceUpdate: () => void;
-    resizeObserver: ResizeObserver;
-    sizesMap: Map<any, any>;
-    slotSize: {
-        clientSize: number;
-        headerSize: number;
-        footerSize: number;
-        stickyHeaderSize: number;
-        stickyFooterSize: number;
-    };
-}, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
+}, VirtualListReturn<any>, {}, {}, {}, import("vue/types/v3-component-options").ComponentOptionsMixin, import("vue/types/v3-component-options").ComponentOptionsMixin, {}, string, Readonly<import("vue-demi").ExtractPropTypes<{
     list: {
         type: {
             (arrayLength: number): any[];
@@ -236,6 +255,10 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
         type: NumberConstructor;
         default: number;
         required: true;
+    };
+    controlRender: {
+        type: FunctionConstructor;
+        default: any;
     };
     fixed: {
         type: BooleanConstructor;
@@ -326,6 +349,7 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
     horizontal: boolean;
     list: any[];
     minSize: number;
+    controlRender: Function;
     bufferTop: number;
     bufferBottom: number;
     scrollDistance: number;
@@ -341,4 +365,4 @@ declare const VirtualList: import("vue-demi").DefineComponent<{
     stickyFooterClass: string;
     stickyFooterStyle: string;
 }>;
-export { VirtualList };
+export { VirtualList, ObserverItem, useVirtualList, useObserverItem };

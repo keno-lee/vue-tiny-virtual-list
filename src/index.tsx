@@ -485,9 +485,10 @@ function useVirtualList<T extends Record<string, any>>(
       fixSelection();
     }
     reactiveData.inViewBegin = start;
+
     reactiveData.inViewEnd = Math.min(
       start + reactiveData.views,
-      props.list.length,
+      props.list.length - 1,
     );
   }
 
@@ -829,7 +830,7 @@ function useVirtualList<T extends Record<string, any>>(
         _newRenderBegin = Math.max(0, _newRenderBegin - reactiveData.bufferTop);
         _newRenderEnd = Math.min(
           _newRenderEnd + reactiveData.bufferBottom,
-          props.list.length,
+          props.list.length - 1,
         );
 
         // update render begin
@@ -851,7 +852,7 @@ function useVirtualList<T extends Record<string, any>>(
         // update render list
         renderList.value = props.list.slice(
           reactiveData.renderBegin,
-          reactiveData.renderEnd,
+          reactiveData.renderEnd + 1,
         );
       }
     },
