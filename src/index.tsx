@@ -11,6 +11,7 @@ import {
   watch,
   type Ref,
   type ShallowRef,
+  type ShallowReactive,
   type VNodeChildren,
   type VNode,
   type SetupContext,
@@ -229,7 +230,7 @@ type VirtualListReturn<T extends Record<string, string>> = {
 };
 
 function useVirtualList<T extends Record<string, any>>(
-  userProps: VirtualListProps<T>,
+  userProps: ShallowReactive<VirtualListProps<T>>,
   emitFunction?: EmitFunction<T>,
 ): VirtualListReturn<T> {
   const props = new Proxy(userProps, {
