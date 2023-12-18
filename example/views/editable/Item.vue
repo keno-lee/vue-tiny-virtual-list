@@ -1,31 +1,28 @@
 <template>
   <div
-    style="
-      display: flex;
-      align-items: center;
-      min-height: 44px;
-      border-bottom: 1px solid #ccc;
-    "
+    style="display: flex; align-items: center; border-bottom: 1px solid #ccc"
   >
-    <div style="width: 200px; padding: 4px; overflow: hidden">
-      <div>{{ index }}</div>
-      <div>{{ itemData.id }}</div>
+    <div style="width: 200px; min-height: 44px; padding: 4px; overflow: hidden">
+      {{ index }} - {{ itemData.id }}
     </div>
     <div
-      ref="editor"
-      contenteditable="true"
       style="
         flex: 1;
         align-items: center;
+        min-height: 44px;
         border-left: 1px solid #ccc;
-
-        padding: 6px 10px;
+        overflow: hidden;
       "
-      @input="changeInput"
     >
-      {{ itemData.text }}
+      <div
+        style="padding: 6px 10px"
+        ref="editor"
+        contenteditable="true"
+        @input="changeInput"
+      >
+        {{ itemData.text }}
+      </div>
     </div>
-    <!-- <span>{{ itemData.id }} - </span> -->
   </div>
 </template>
 

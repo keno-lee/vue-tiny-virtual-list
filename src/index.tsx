@@ -6,6 +6,7 @@ import {
   onMounted,
   onBeforeUnmount,
   reactive,
+  shallowReactive,
   ref,
   shallowRef,
   watch,
@@ -203,7 +204,11 @@ type VirtualListReturn<T extends Record<string, string>> = {
   stickyHeaderRefEl: Ref<HTMLElement | null>;
   stickyFooterRefEl: Ref<HTMLElement | null>;
 
-  reactiveData: ReactiveData;
+  reactiveData: ShallowReactive<ReactiveData>;
+  slotSize: ShallowReactive<SlotSize>;
+  sizesMap: Map<string, number>;
+
+  resizeObserver: ResizeObserver | undefined;
 
   getOffset: () => number;
   reset: () => void;
@@ -223,10 +228,6 @@ type VirtualListReturn<T extends Record<string, string>> = {
     bottom: number;
   };
   forceUpdate: () => void;
-  resizeObserver: ResizeObserver | undefined;
-  sizesMap: Map<string, number>;
-  // test
-  slotSize: SlotSize;
 };
 
 function useVirtualList<T extends Record<string, any>>(
@@ -252,16 +253,17 @@ function useVirtualList<T extends Record<string, any>>(
   // 一个手动设置滚动的标志位，用来判断是否需要纠正滚动位置
   let fixOffset = false;
   let forceFixOffset = false;
-  const slotSize: SlotSize = {
+
+  const slotSize: ShallowReactive<SlotSize> = shallowReactive({
     clientSize: 0,
     headerSize: 0,
     footerSize: 0,
     stickyHeaderSize: 0,
     stickyFooterSize: 0,
-  };
+  });
 
   // 全局需要响应式的数据
-  const reactiveData: ReactiveData = reactive({
+  const reactiveData: ShallowReactive<ReactiveData> = shallowReactive({
     // 可视区域的个数，不算buffer，只和clientSize和minSize有关
     views: 0,
 
@@ -817,7 +819,14 @@ function useVirtualList<T extends Record<string, any>>(
         // 新的渲染结束
         let _newRenderEnd = reactiveData.inViewEnd;
 
-        // 控制层渲染
+        // 计算buffer
+        _newRenderBegin = Math.max(0, _newRenderBegin - reactiveData.bufferTop);
+        _newRenderEnd = Math.min(
+          _newRenderEnd + reactiveData.bufferBottom,
+          props.list.length - 1,
+        );
+
+        // 控制层渲染，等于说要覆盖掉buffer
         if (props?.renderControl) {
           const { begin, end } = props.renderControl(
             _newInViewBegin,
@@ -826,13 +835,6 @@ function useVirtualList<T extends Record<string, any>>(
           _newRenderBegin = begin;
           _newRenderEnd = end;
         }
-
-        // 计算buffer
-        _newRenderBegin = Math.max(0, _newRenderBegin - reactiveData.bufferTop);
-        _newRenderEnd = Math.min(
-          _newRenderEnd + reactiveData.bufferBottom,
-          props.list.length - 1,
-        );
 
         // update render begin
         reactiveData.renderBegin = _newRenderBegin;
@@ -896,6 +898,10 @@ function useVirtualList<T extends Record<string, any>>(
     stickyFooterRefEl,
 
     reactiveData,
+    slotSize,
+    sizesMap,
+
+    resizeObserver,
 
     getOffset,
     reset,
@@ -911,10 +917,6 @@ function useVirtualList<T extends Record<string, any>>(
     increaseTopSize,
     getItemPosByIndex,
     forceUpdate,
-    resizeObserver,
-    sizesMap,
-    // test
-    slotSize,
   };
 }
 const VirtualList = defineComponent({
@@ -1229,4 +1231,15 @@ const VirtualList = defineComponent({
   },
 });
 
-export { VirtualList, ObserverItem, useVirtualList, useObserverItem };
+export {
+  VirtualList,
+  ObserverItem,
+  useVirtualList,
+  useObserverItem,
+  type VirtualListProps,
+  type VirtualListReturn,
+  type ReactiveData,
+  type EmitFunction,
+  type SlotSize,
+  type ObserverItemProps,
+};

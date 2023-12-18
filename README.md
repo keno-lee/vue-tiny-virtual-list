@@ -76,3 +76,19 @@ npm install vue-tiny-virtual-list -S
 | sticky-header | sticky header slot                                       |
 | sticky-footer | sticky footer slot                                       |
 | default       | item content, The scope parameter is { itemData, index } |
+
+### Event
+
+| 方法名     | 说明                            | 参数                                         |
+| ---------- | ------------------------------- | -------------------------------------------- |
+| toTop      | triggers when to top            | the first item of list                       |
+| toBottom   | triggers when to bottom         | the last item of list                        |
+| scroll     | triggers when scroll            | -                                            |
+| itemResize | triggers when list item resized | (id: number \| string, size: number) => void |
+
+### Exposes
+
+| 方法名         | 说明             | 参数 |
+| -------------- | ---------------- | ---- |
+| scrollToTop    | scroll to top    | -    |
+| scrollToBottom | scroll to bottom | -    |

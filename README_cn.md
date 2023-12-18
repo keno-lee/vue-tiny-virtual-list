@@ -54,7 +54,7 @@ npm install vue-tiny-virtual-list -S
 </script>
 ```
 
-### Attributes
+### 属性
 
 | 参数         | 说明                                                                              | 类型             | 默认值  | 是否必须 |
 | ------------ | --------------------------------------------------------------------------------- | ---------------- | ------- | -------- |
@@ -67,7 +67,7 @@ npm install vue-tiny-virtual-list -S
 | bufferBottom | 底部 buffer 个数                                                                  | `Number`         | `0`     | `否`     |
 | horizontal   | 是否水平滚动                                                                      | `Boolean`        | `false` | `否`     |
 
-### Slot
+### 插槽
 
 | name          | 说明                                         |
 | ------------- | -------------------------------------------- |
@@ -76,3 +76,17 @@ npm install vue-tiny-virtual-list -S
 | sticky-header | 顶部悬浮插槽                                 |
 | sticky-footer | 底部悬浮插槽                                 |
 | default       | item 内容， 作用域参数为 { itemData, index } |
+
+### 事件
+
+| 方法名   | 说明       | 参数           |
+| -------- | ---------- | -------------- |
+| toTop    | 触顶的回调 | 列表中第一项   |
+| toBottom | 触底的回调 | 列表中最后一项 |
+
+### 暴露方法
+
+| 方法名         | 说明             | 参数 |
+| -------------- | ---------------- | ---- |
+| scrollToTop    | scroll to top    | -    |
+| scrollToBottom | scroll to bottom | -    |
