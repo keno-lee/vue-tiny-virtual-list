@@ -1,9 +1,10 @@
 {
   "name": "vue-tiny-virtual-list",
-  "version": "1.4.0-beta.4",
+  "version": "1.4.0-beta.5",
   "description": "Tiny(3kb) & Virtual scroll list & Huge amount data & High performance (support vue2.x&vue3.x)",
   "author": "keno-lee",
   "license": "MIT",
+  "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",

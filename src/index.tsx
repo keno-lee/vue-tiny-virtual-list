@@ -5,19 +5,19 @@ import {
   onBeforeMount,
   onMounted,
   onBeforeUnmount,
-  reactive,
   shallowReactive,
   ref,
   shallowRef,
   watch,
+  h,
   type Ref,
   type ShallowRef,
   type ShallowReactive,
   type VNodeChildren,
   type VNode,
   type SetupContext,
+  type PropType,
 } from 'vue-demi';
-import { h } from 'vue';
 
 function polyfillAttr(rest: Record<string, any>, attrs: Record<string, any>) {
   return isVue2
@@ -74,7 +74,7 @@ const ObserverItem = defineComponent({
   name: 'ObserverItem',
   props: {
     resizeObserver: {
-      type: ResizeObserver,
+      type: Object as PropType<ResizeObserver>,
       require: true,
     },
     id: {
@@ -248,7 +248,7 @@ function useVirtualList<T extends Record<string, any>>(
   const stickyFooterRefEl = ref<HTMLElement | null>(null);
 
   const sizesMap = new Map();
-  const renderKey = ref(new Date().getTime());
+  const renderKey = ref(0);
   let direction: 'forward' | 'backward' = 'backward';
   // 一个手动设置滚动的标志位，用来判断是否需要纠正滚动位置
   let fixOffset = false;
@@ -666,7 +666,7 @@ function useVirtualList<T extends Record<string, any>>(
   }
 
   function forceUpdate() {
-    renderKey.value = new Date().getTime();
+    renderKey.value += 1;
   }
 
   let resizeObserver: ResizeObserver | undefined = undefined;
