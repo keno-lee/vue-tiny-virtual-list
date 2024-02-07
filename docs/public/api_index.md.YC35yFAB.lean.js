@@ -1,0 +1,1 @@
+import{_ as t,c as d,o as e,R as o}from"./chunks/framework.UVXzjgAp.js";const u=JSON.parse('{"title":"API 文档","description":"","frontmatter":{},"headers":[],"relativePath":"api/index.md","filePath":"api/index.md"}'),r={name:"api/index.md"},a=o("",9),c=[a];function h(i,l,n,b,s,f){return e(),d("div",null,c)}const _=t(r,[["render",h]]);export{u as __pageData,_ as default};

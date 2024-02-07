@@ -10,21 +10,11 @@
 
 👉 <a href="https://d8diegi800.feishu.cn/wiki/MX2Vwn1RWiwUsokjhshcr6sVnNb?from=from_copylink" target="_blank">Advantages</a>
 
-👉 <a href="https://keno-lee.github.io/vue-tiny-virtual-list/" target="_blank">Live demo</a>
+## Documentation
 
-## Advantages
+To check out docs, visit <a href="https://keno-lee.github.io/vue-tiny-virtual-list/" target="_blank">vue-tiny-virtual-list</a>
 
-- Tiny: 8K (gzipped 3k)
-- Works for both Vue 3 and 2 (Use vue-demi)
-- Millions of data, high performance, full frame rate rendering
-- Supports horizontal and vertical scrolling
-- Typescript support
-- Supports smooth scrolling upwards
-- Scroll without losing selection
-- O(1) complexity rolling increment calculation
-- Supports a variety of slots to choose from, and supports expansion in various scenarios (table, infinity loading, chat room, merged cells, etc.)
-
-## Start
+## Quick Start
 
 ```shell
 npm install vue-tiny-virtual-list -S
@@ -53,26 +43,3 @@ npm install vue-tiny-virtual-list -S
   };
 </script>
 ```
-
-### Attributes
-
-| Name         | Description                                                                                                                                                  | Type             | Default | Required |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ------- | -------- |
-| list         | data list                                                                                                                                                    | `Array`          | -       | `true`   |
-| itemKey      | list item id                                                                                                                                                 | `String  Number` | -       | `true`   |
-| minSize      | **Minimum size**, the number in the visible area will be calculated based on this size                                                                       | `Number`         | `20`    | `true`   |
-| fixed        | Fixed height mode can improve performance<br />**Note: Do not use it under dynamic height**                                                                  | `Number`         | `false` | `false`  |
-| buffer       | When the amount of rendering is large and the scrolling white screen is serious, you can give values, and bufferTop and bufferBottom will be equal to buffer | `Number`         | `0`     | `false`  |
-| bufferTop    | buffer for top                                                                                                                                               | `Number`         | `0`     | `false`  |
-| bufferBottom | buffer for bottom                                                                                                                                            | `Number`         | `0`     | `false`  |
-| horizontal   | horizontal mode                                                                                                                                              | `Boolean`        | `false` | `false`  |
-
-### Slot
-
-| name          | Description                                              |
-| ------------- | -------------------------------------------------------- |
-| header        | header slot                                              |
-| footer        | footer slot                                              |
-| sticky-header | sticky header slot                                       |
-| sticky-footer | sticky footer slot                                       |
-| default       | item content, The scope parameter is { itemData, index } |

@@ -1,0 +1,11 @@
+.vitepress/i18n/*
+.vitepress/cache/*
+.vitepress/crowdin/*
+!.vitepress/crowdin/en-US
+.vitepress/.temp/
+
+temp
+zh-CN
+fr-FR
+es-ES
+ja-JP

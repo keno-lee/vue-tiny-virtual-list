@@ -1,0 +1,41 @@
+:root {
+  --color-bg-message: #ccc;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+.demo-btn {
+  padding: 2px 4px;
+  border: 1px solid var(--vp-c-border);
+}
+
+.demo-input {
+  width: 100px;
+  padding: 2px 4px;
+  border: 1px solid var(--vp-c-border);
+}
+
+.content {
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-corner {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* 定义滑块颜色、内阴影及圆角 */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: red;
+    background-clip: padding-box;
+    border-style: solid;
+    border-width: 3px;
+    border-color: transparent;
+  }
+}

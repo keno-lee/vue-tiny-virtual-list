@@ -1,0 +1,26 @@
+{
+  "name": "vue-tiny-virtual-list/vitepress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build:docs": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/tsconfig": "^0.5.1",
+    "markdown-it-container": "^4.0.0",
+    "vite": "^5.0.10",
+    "vitepress": "1.0.0-rc.32"
+  },
+  "dependencies": {
+    "@vue/repl": "^3.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "vue": "^3.3.13"
+  }
+}

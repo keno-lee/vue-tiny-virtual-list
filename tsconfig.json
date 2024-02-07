@@ -10,8 +10,5 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ],
-  "vueCompilerOptions": {
-    "target": 2.7 // For Vue version <= 2.6.14
-  }
+  ]
 }

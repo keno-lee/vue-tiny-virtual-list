@@ -6,5 +6,12 @@ scripts/
 .eslintignore
 .eslintrc.cjs
 .gitignore
-.prettierrc.js
+.npmignore
+.npmrc
+.prettierrc.cjs
+contribution.md
+tsconfig.app.json
+tsconfig.build/json
 tsconfig.json
+tsconfig.node.json
+tsconfig.vitest.json

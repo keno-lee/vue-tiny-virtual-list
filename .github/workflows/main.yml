@@ -23,7 +23,7 @@ jobs:
 
       # npm ci命令类似于 npm install 但它旨在用于自动化环境，如测试平台，持续集成和部署
       # 可以帮助捕获由大多数 npm 用户的增量安装的本地环境引起的错误或不一致
-      - run: npm ci
+      - run: pnpm install -r
 
       # 打包
       - run: npm run build
