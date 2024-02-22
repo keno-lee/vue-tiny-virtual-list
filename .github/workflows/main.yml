@@ -15,6 +15,10 @@ jobs:
     steps:
       # 检查仓库以便作业能正常访问
       - uses: actions/checkout@v3
+      # pnpm
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
